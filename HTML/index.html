@@ -4,97 +4,165 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="shortcut icon" type="image/png" href="../Images/smiley.jpg">
     <script src="../JS/index.js"></script>
     <title>Gromegle</title>
 </head>
 
 <body>
     <nav class="navbar navbar-dark">
-        <a class="navbar-brand" href="#">Gromegle</a>
+        <a id="title" class="navbar-brand" href="#"><h1>Gromegle</h1></a>
     </nav>
     <div class="container">
         <table class="table">
             <thead class="thead-dark">
-              <tr>
-                <th>FriendsList</th>
-              </tr>
+                <tr>
+                    <th>Friends List</th>
+                </tr>
             </thead>
             <tbody>
-              <tr>
-                <td scope="row">Friend1</td>
-              </tr>
-              <tr>
-                <td scope="row">Friend2</td>
-              </tr>
+                <tr>
+                    <td scope="row">Friend1</td>
+                </tr>
+                <tr>
+                    <td scope="row">Friend2</td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td><button type="button" class="plus">+</button></td>
                 </tr>
             </tfoot>
-          </table>
-          <table class="table">
+        </table>
+        <table class="table">
             <thead class="thead-dark">
-              <tr>
-                <th>Interests</th>
-              </tr>
+                <tr>
+                    <th>Interests</th>
+                </tr>
             </thead>
             <tbody>
-              <tr>
-                <td scope="row">Interest1</td>
-              </tr>
-              <tr>
-                <td scope="row">Interest2</td>
-              </tr>
+                <tr>
+                    <td scope="row">Interest1</td>
+                </tr>
+                <tr>
+                    <td scope="row">Interest2</td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td><button type="button" class="plus">+</button></td>
                 </tr>
             </tfoot>
-          </table>
-          <div>
-              <button type="button" class="btn chat">Chat With a Random Group</button>
-            </div>
-          <div>
-              <button type="button" class="btn chat">Chat With a Group With Similar Interests</button>
-            </div>
+        </table>
+    </div>
+    <div class="container">
+        <div>
+            <button type="button" class="btn chat">Chat With a Random Group</button>
+        </div>
+        <div>
+            <button type="button" class="btn chat">Chat With a Group With Similar Interests</button>
+        </div>
     </div>
 
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
+    
+    <section>
+        <h2 id="about">About Us</h2>
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Geoff</h4>
+                </div>
+                <div class="card-body">
+                    <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
+                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
+                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Daniel Jin</h4>
+                </div>
+                <div class="card-body">
+                    <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                         Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
+                          ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                           sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                            Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
+                             scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Jon S</h4>
+                </div>
+                <div class="card-body">
+                    <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
+                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
+                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Adam Krawchuk</h4>
+                </div>
+                <div class="card-body">
+                    <img class="team-member-photo card-img-bottom" src="../Images/Adam.png" alt="Card image cap">
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
+                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
+                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        copyrights lmao
+    </footer>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
-<!-- Initialize Firebase -->
-<!--<script src="/__/firebase/init.js"></script>
+    <!-- Initialize Firebase -->
+    <!--<script src="/__/firebase/init.js"></script>
   <script src="script.js"></script>
 -->
 
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
 
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
-    authDomain: "gromegle-38a5f.firebaseapp.com",
-    databaseURL: "https://gromegle-38a5f.firebaseio.com",
-    projectId: "gromegle-38a5f",
-    storageBucket: "gromegle-38a5f.appspot.com",
-    messagingSenderId: "850757928386",
-    appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
-    measurementId: "G-R6DWLFVZQY"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
+            authDomain: "gromegle-38a5f.firebaseapp.com",
+            databaseURL: "https://gromegle-38a5f.firebaseio.com",
+            projectId: "gromegle-38a5f",
+            storageBucket: "gromegle-38a5f.appspot.com",
+            messagingSenderId: "850757928386",
+            appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
+            measurementId: "G-R6DWLFVZQY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
 </body>
 
 </html>

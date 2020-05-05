@@ -11,9 +11,9 @@
     
 }
 .container{
-    display: grid;
-    grid-template-columns: 45% 45%;
-    column-gap: 5%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
 }
 
 .table{
@@ -21,21 +21,54 @@
     box-shadow: 1px 2px 1px;
     border-collapse: collapse;
     margin-top: 5%;
+    max-width: 300px;
 }
 .chat{
-    width: 100%;
+    width: 200px;   
     min-height: 75px;
-    background-color: olive;
+    background-color: orange;
     color: white;
+    margin-top: 10px;
 }
 nav{
     background-color: orange;
+    border-bottom: 1px solid gray;
 }
 .plus{
     max-width: 10%;
     max-height: 10%;
     border-radius: 50%;
     color: white;
-    background-color: olive;
+    background-color: orange;
     float: right;
+}
+.team-member-photo{
+    max-width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+.card{
+    margin-top: 15px;
+    width: 300px;
+    font-size: 10pt;
+    box-shadow: 2px 1px orangered;
+}
+h2{
+    color: white;
+}
+section{
+    background-color: orange;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid gray;
+}
+footer{
+    background-color: lightgray;
+    padding-top: 20px;
+    border-top: 1px solid gray;
+}
+#about{
+    text-align: center;
 }
