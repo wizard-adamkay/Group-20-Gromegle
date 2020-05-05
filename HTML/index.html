@@ -11,23 +11,90 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-dark">
         <a class="navbar-brand" href="#">Gromegle</a>
     </nav>
-    <form>
-        <button type="button" class="btn btn-primary">Chat With a Random Group</button>
-        <button type="button" class="btn btn-primary">Chat With a Group With Similar Interests</button>
-    </form>
-    
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="/__/firebase/7.14.2/firebase-app.js"></script>
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>FriendsList</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">Friend1</td>
+              </tr>
+              <tr>
+                <td scope="row">Friend2</td>
+              </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><button type="button" class="plus">+</button></td>
+                </tr>
+            </tfoot>
+          </table>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th>Interests</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">Interest1</td>
+              </tr>
+              <tr>
+                <td scope="row">Interest2</td>
+              </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><button type="button" class="plus">+</button></td>
+                </tr>
+            </tfoot>
+          </table>
+          <div>
+              <button type="button" class="btn chat">Chat With a Random Group</button>
+            </div>
+          <div>
+              <button type="button" class="btn chat">Chat With a Group With Similar Interests</button>
+            </div>
+    </div>
+
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <!-- Initialize Firebase -->
-<script src="/__/firebase/init.js"></script>
+<!--<script src="/__/firebase/init.js"></script>
   <script src="script.js"></script>
+-->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
+    authDomain: "gromegle-38a5f.firebaseapp.com",
+    databaseURL: "https://gromegle-38a5f.firebaseio.com",
+    projectId: "gromegle-38a5f",
+    storageBucket: "gromegle-38a5f.appspot.com",
+    messagingSenderId: "850757928386",
+    appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
+    measurementId: "G-R6DWLFVZQY"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 </body>
 
 </html>
