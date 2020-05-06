@@ -8,13 +8,16 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="../CSS/index.css">
     <link rel="shortcut icon" type="image/png" href="../Images/smiley.jpg">
-    <script src="../JS/index.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
     <title>Gromegle</title>
 </head>
 
 <body>
     <nav class="navbar navbar-dark">
-        <a id="title" class="navbar-brand" href="#"><h1>Gromegle</h1></a>
+        <a id="title" class="navbar-brand" href="#">
+            <h1>Gromegle</h1>
+        </a>
     </nav>
     <div class="container">
         <table class="table">
@@ -33,7 +36,19 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td><button type="button" class="plus">+</button></td>
+                    <td>
+                        <button onclick="showFriendsOption()" type="button" class="plus open-button">
+                            +
+                        </button>
+                        <div class="form-popup" id="friendForm">
+                            <form class="form-container">
+                              <label for="email"><b>Add friend by email:</b></label>
+                              <input type="email" placeholder="Enter Email" name="email" required>
+                              <button type="submit" class="btn">Send friend Request</button>
+                              <button type="submit" class="btn cancel" onclick="closeFriends()">Close</button>
+                            </form>
+                          </div>
+                    </td>
                 </tr>
             </tfoot>
         </table>
@@ -53,21 +68,33 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td><button type="button" class="plus">+</button></td>
+                    <td>
+                        <button onclick="showInterestsOption()" type="button" class="plus popup">
+                            +
+                        </button>
+                        <div class="form-popup" id="interestForm">
+                            <form class="form-container">
+                              <label for="text"><b>Add an interest:</b></label>
+                              <input type="text" placeholder="Enter Interest" name="text" required>
+                              <button type="submit" class="btn">Add Interest</button>
+                              <button type="submit" class="btn cancel" onclick="closeInterests()">Close</button>
+                            </form>
+                          </div>
+                    </td>
                 </tr>
             </tfoot>
         </table>
     </div>
     <div class="container">
         <div>
-            <button type="button" class="btn chat">Chat With a Random Group</button>
+            <button type="button" class="chat">Chat With a Random Group</button>
         </div>
         <div>
-            <button type="button" class="btn chat">Chat With a Group With Similar Interests</button>
+            <button type="button" class="chat">Chat With a Group With Similar Interests</button>
         </div>
     </div>
 
-    
+
     <section>
         <h2 id="about">About Us</h2>
         <div class="container">
@@ -77,12 +104,14 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
+                        diam.
                         Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
-                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
+                        metus
+                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -91,12 +120,14 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
-                         Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                          ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                           sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                            Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
-                             scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
+                        diam.
+                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
+                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
+                        metus
+                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -105,12 +136,14 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
+                        diam.
                         Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
-                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
+                        metus
+                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -119,12 +152,14 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/Adam.png" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus diam.
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
+                        diam.
                         Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                         ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                          sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                           Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae metus
-                            scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
+                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
+                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
+                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
+                        metus
+                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
         </div>
@@ -135,10 +170,8 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
-    <!-- Initialize Firebase -->
-    <!--<script src="/__/firebase/init.js"></script>
-  <script src="script.js"></script>
--->
+
+
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
@@ -146,23 +179,9 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
-
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
-            authDomain: "gromegle-38a5f.firebaseapp.com",
-            databaseURL: "https://gromegle-38a5f.firebaseio.com",
-            projectId: "gromegle-38a5f",
-            storageBucket: "gromegle-38a5f.appspot.com",
-            messagingSenderId: "850757928386",
-            appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
-            measurementId: "G-R6DWLFVZQY"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+    <script src="../JS/index.js"></script>
 </body>
 
 </html>

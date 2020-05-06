@@ -10,6 +10,11 @@
     
     
 }
+button{
+    color: white;
+    background-color: orange;
+    border: 1px solid orangered;
+}
 .container{
     display: flex;
     flex-flow: row wrap;
@@ -26,20 +31,21 @@
 .chat{
     width: 200px;   
     min-height: 75px;
-    background-color: orange;
-    color: white;
     margin-top: 10px;
+    border-radius: 50%;
 }
 nav{
     background-color: orange;
+    font-family: 'Righteous', cursive;
     border-bottom: 1px solid gray;
+}
+h1{
+    font-size: 40pt;
 }
 .plus{
     max-width: 10%;
     max-height: 10%;
     border-radius: 50%;
-    color: white;
-    background-color: orange;
     float: right;
 }
 .team-member-photo{
@@ -47,7 +53,7 @@ nav{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
+    width: 75%;
 }
 .card{
     margin-top: 15px;
@@ -71,4 +77,58 @@ footer{
 }
 #about{
     text-align: center;
+    font-family: 'Righteous', cursive;
+}
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: none;
+  position: absolute;
+  margin-top: -100px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+.form-container input[type=email], .form-container input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
 }
