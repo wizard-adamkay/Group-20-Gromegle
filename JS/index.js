@@ -22,7 +22,6 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 const friends = myData.friends;
-                console.log(friends);
                 friends.forEach(friend => {
                     let first = '<tr><td scope="row">';
                     let last = "</td></tr>";
@@ -71,6 +70,7 @@ function addFriend() {
             });
         })
         .catch(function (error) {
+            alert("noone by that email exists");
             console.log("Error getting documents: ", error);
         });
 }
