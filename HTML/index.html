@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 
     <title>Gromegle</title>
+    <script type="text/javascript" src='https://code.jquery.com/jquery-3.5.0.min.js'></script>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
                     <th>Friends List</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="friendTable">
                 <tr>
                     <td scope="row">Friend1</td>
                 </tr>
@@ -42,12 +43,12 @@
                         </button>
                         <div class="form-popup" id="friendForm">
                             <form class="form-container">
-                              <label for="email"><b>Add friend by email:</b></label>
-                              <input type="email" placeholder="Enter Email" name="email" required>
-                              <button type="submit" class="btn">Send friend Request</button>
-                              <button type="submit" class="btn cancel" onclick="closeFriends()">Close</button>
+                                <label for="email"><b>Add friend by email:</b></label>
+                                <input type="email" placeholder="Enter Email" name="email" required>
+                                <button onclick="addFriend()" type="button" class="btn">Send friend Request</button>
+                                <button type="button" class="btn cancel" onclick="closeFriends()">Close</button>
                             </form>
-                          </div>
+                        </div>
                     </td>
                 </tr>
             </tfoot>
@@ -58,7 +59,7 @@
                     <th>Interests</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="interestTable">
                 <tr>
                     <td scope="row">Interest1</td>
                 </tr>
@@ -74,12 +75,12 @@
                         </button>
                         <div class="form-popup" id="interestForm">
                             <form class="form-container">
-                              <label for="text"><b>Add an interest:</b></label>
-                              <input type="text" placeholder="Enter Interest" name="text" required>
-                              <button type="submit" class="btn">Add Interest</button>
-                              <button type="submit" class="btn cancel" onclick="closeInterests()">Close</button>
+                                <label for="text"><b>Add an interest:</b></label>
+                                <input type="text" placeholder="Enter Interest" name="text" required>
+                                <button type="button" class="btn">Add Interest</button>
+                                <button type="button" class="btn cancel" onclick="closeInterests()">Close</button>
                             </form>
-                          </div>
+                        </div>
                     </td>
                 </tr>
             </tfoot>
@@ -104,14 +105,6 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
-                        diam.
-                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
-                        metus
-                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -120,14 +113,6 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
-                        diam.
-                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
-                        metus
-                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -136,14 +121,6 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/smiley.jpg" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
-                        diam.
-                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
-                        metus
-                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
             <div class="card">
@@ -152,35 +129,31 @@
                 </div>
                 <div class="card-body">
                     <img class="team-member-photo card-img-bottom" src="../Images/Adam.png" alt="Card image cap">
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc rhoncus tellus
-                        diam.
-                        Etiam ac orci ipsum. Vestibulum ac commodo mi. Pellentesque pulvinar dolor sit amet dui posuere,
-                        ac egestas justo facilisis. Mauris vel pulvinar ipsum. Aenean fermentum dignissim orci, ornare
-                        sagittis diam eleifend vel. Nunc eros odio, ultrices id ligula non, placerat scelerisque est.
-                        Praesent imperdiet scelerisque dolor, nec maximus elit ultricies ac. Sed euismod mauris vitae
-                        metus
-                        scelerisque ornare. Fusce pulvinar dictum semper. Nunc.</p>
                 </div>
             </div>
+        </div>
+        <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi scelerisque nibh sit amet ex varius
+                mollis. Phasellus dapibus libero at sapien vulputate commodo. Quisque ultrices velit sit amet metus
+                condimentum mollis. Nam tristique at eros quis volutpat. Integer et orci arcu. Fusce eu lectus eu lorem
+                sodales varius. Maecenas eu nulla et sem malesuada condimentum et ac odio. Nulla ut urna lectus.
+                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hendrerit
+                vehicula eros, quis finibus orci porttitor nec. Suspendisse accumsan risus justo, eget iaculis mi
+                lacinia egestas. Curabitur at nibh varius tellus dictum facilisis sit amet eu elit. Fusce vitae sem
+                vitae sapien egestas pharetra ac a lacus.</p>
         </div>
     </section>
     <footer>
         copyrights lmao
     </footer>
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-
-
-
-
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
     <script src="../JS/index.js"></script>
 </body>
 

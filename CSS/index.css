@@ -49,15 +49,16 @@ h1{
     float: right;
 }
 .team-member-photo{
-    max-width: 200px;
+    max-width: 250px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 75%;
+    width: 100%;
+    
 }
 .card{
     margin-top: 15px;
-    width: 300px;
+    width: 250px;
     font-size: 10pt;
     box-shadow: 2px 1px orangered;
 }
