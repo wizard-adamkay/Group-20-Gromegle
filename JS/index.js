@@ -70,7 +70,6 @@ function addFriend() {
             });
         })
         .catch(function (error) {
-            alert("noone by that email exists");
             console.log("Error getting documents: ", error);
         });
 }
