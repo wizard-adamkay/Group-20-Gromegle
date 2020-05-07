@@ -24,7 +24,9 @@ firebase.auth().onAuthStateChanged(function (user) {
                 const friends = myData.friends;
                 console.log(friends);
                 friends.forEach(friend => {
-                    $("#friendTable").append("<td>", friend, "</td>");
+                    let first = '<tr><td scope="row">';
+                    let last = "</td></tr>";
+                    $("#friendTable").append(first + friend + last);
                 });
             }
         }).catch(function (error) {
