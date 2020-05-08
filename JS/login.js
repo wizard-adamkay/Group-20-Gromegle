@@ -56,7 +56,7 @@ let uiConfig = {
                     },
                 }).then(function () {
                     console.log("New user added to firestore");
-                    window.location.assign("index.html");
+                    window.location.assign("HTML/home.html");
                 })
                     .catch(function (error) {
                         console.log("Error adding new user: " + error);
@@ -77,7 +77,7 @@ let uiConfig = {
     credentialHelper: firebaseui.auth.CredentialHelper.NONE,
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
-    signInSuccessUrl: 'index.html',
+    signInSuccessUrl: 'HTML/home.html',
     signInOptions: [
         // Leave the lines as is for the providers you want to offer your users.
         //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -88,9 +88,9 @@ let uiConfig = {
         //firebase.auth.PhoneAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
-    tosUrl: 'index.html',
+    tosUrl: 'HTML/home.html',
     // Privacy policy url.
-    privacyPolicyUrl: 'index.html',
+    privacyPolicyUrl: 'HTML/home.html',
     accountChooserEnabled: false
 };
 // The start method will wait until the DOM is loaded.
