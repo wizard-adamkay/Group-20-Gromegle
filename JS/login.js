@@ -8,12 +8,14 @@ var firebaseConfig = {
     messagingSenderId: "850757928386",
     appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
     measurementId: "G-R6DWLFVZQY"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+let user;
+let userpath;
 
-  // This snippet goes at the JS section at the end of the body tag in "login.html"
+// This snippet goes at the JS section at the end of the body tag in "login.html"
 // After firebase libraries via CDN are sourced
 // After your firebase project API config is defined
 // After the authentication container is created in HTML
@@ -41,8 +43,10 @@ let uiConfig = {
             // Before this works, you must enable "Firestore" from the firebase console.
             // The Firestore rules must allow the user to write. 
             //------------------------------------------------------------------------------------------
-            let user = authResult.user;
+            user = authResult.user;
+            userpath = db.collection("users").doc(user.uid)
             if (authResult.additionalUserInfo.isNewUser) {
+<<<<<<< HEAD
                 db.collection("users").doc(user.uid).set({
                     friendid: user.uid,
                     name: user.displayName,
@@ -59,6 +63,25 @@ let uiConfig = {
                     window.location.assign("HTML/home.html");
                 })
                     .catch(function (error) {
+=======
+                    userpath.set({
+                        friendid: user.uid,
+                        name: user.displayName,
+                        email: user.email,
+                        reportcount: 0,
+                        bio: "Empty",
+                        pfplink: "Empty",
+                    }).then(function () {
+                        console.log("New user added to firestore");
+                        addSports();
+                    }).then(function () {    
+                        addFood();
+                    }).then(function () {
+                        addMoney();
+                    }).then(function () {
+                        window.location.assign("index.html");
+                    }).catch(function (error) {
+>>>>>>> 2b99489f381ce1f5dcb238eca2bdec572d5f4c60
                         console.log("Error adding new user: " + error);
                     });
             } else {
@@ -68,7 +91,7 @@ let uiConfig = {
         },
 
         uiShown: function () {
-            // The widget is rendered.
+            // The widget is rendered.s
             // Hide the loader.
             document.getElementById('loader').style.display = 'none';
         }
@@ -96,3 +119,37 @@ let uiConfig = {
 // The start method will wait until the DOM is loaded.
 // Inject the login interface into the HTML
 ui.start('#firebaseui-auth-container', uiConfig);
+
+
+//this is referenced in the login function, and adds all the toggleable interests.
+//said interests are set in separate functions for slightly faster viewing and sortability
+//for the readers.
+function addSports(){
+    userpath.collection("interests").add({
+        Category: "Sports",
+        Hockey: false,
+        Basketball: false,
+        GridIron: false,
+        Football: false
+    });
+}
+
+function addFood(){
+    userpath.collection("interests").add({
+        Category: "Food",
+        Cooking: false,
+        MasterChef: false,
+        MichelinStars: false,
+        NewRestaurants: false
+    });
+}
+
+function addMoney(){
+    userpath.collection("interests").add({
+        Category: "Wealth",
+        Investing: false,
+        Business: false,
+        LifeTips: false,
+        RealEstate: false
+    });
+}
