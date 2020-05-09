@@ -104,7 +104,7 @@ function startWebRTC() {
         const stream = event.streams[0];
         console.log(remoteVideo);
         console.log(stream);
-        if (remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id) {
+        if (remoteVideo.attribute != stream.id && remoteVideo1.attribute != stream.id && remoteVideo2.attribute != stream.id) {
           if (!(remoteVideo.srcObject || remoteVideo.attribute === stream.id)) {
             remoteVideo.srcObject = stream;
             remoteVideo.attribute = stream.id;
@@ -159,7 +159,7 @@ function startWebRTC() {
           const stream = event.streams[0];
           console.log(remoteVideo);
           console.log(stream);
-          if (remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id) {
+          if (remoteVideo.attribute != stream.id && remoteVideo1.attribute != stream.id && remoteVideo2.attribute != stream.id) {
             if (!(remoteVideo.srcObject || remoteVideo.attribute === stream.id)) {
               remoteVideo.srcObject = stream;
               remoteVideo.attribute = stream.id;
