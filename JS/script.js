@@ -23,7 +23,7 @@ function onError(error) {
 //Gets the user video and audio streams
 navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: false,
+    video: true,
   }).then(stream => {
     console.log(stream);
     localStream = stream;
@@ -45,6 +45,9 @@ drone.on('open', error => {
   room.on('members', memberList => {
     console.log('MEMBERS', memberList);
     members = memberList;
+    if (members.length > 4) {
+      window.location.href = window.location.href.substring(0, window.location.href - 14) + "home.html";
+    }
     //Launches startWebRTC
     waitForStreams();
   });
@@ -61,6 +64,12 @@ function waitForStreams() {
   console.log("heyo");
 }
 
+function createOffer(pc) {
+  pc.onnegotiationneeded = () => {
+      console.log("sending offer");
+      setTimeout(function(){ pc.createOffer().then(event => localDescCreated(event, pc.id)).catch(onError); }, 500);
+    }
+}
 
 // Send signaling data via Scaledrone
 function sendMessage(message) {
@@ -88,11 +97,8 @@ function startWebRTC() {
           newPc.pc.addTrack(track, localStream);
       });
       newPc.pc.id = newPc.id;
-      newPc.pc.onnegotiationneeded = () => {
-       console.log("sending offer");
-       
-        setTimeout(function(){ newPc.pc.createOffer().then(event => localDescCreated(event, newPc.id)).catch(onError); }, 500);
-      }
+      createOffer(newPc.pc);
+      
       
       newPc.pc.ontrack = event => {
         const stream = event.streams[0];
