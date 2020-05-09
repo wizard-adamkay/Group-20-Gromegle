@@ -102,12 +102,19 @@ function startWebRTC() {
       
       newPc.pc.ontrack = event => {
         const stream = event.streams[0];
-        if (!remoteVideo.srcObject) {
-          remoteVideo.srcObject = stream;
-        } else if (!remoteVideo1.srcObject) {
-          remoteVideo1.srcObject = stream;
-        } else if (!remoteVideo2.srcObject) {
-          remoteVideo2.srcObject = stream;
+        console.log(remoteVideo);
+        console.log(stream);
+        if (remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id && remoteVideo.attribute != stream.id) {
+          if (!(remoteVideo.srcObject || remoteVideo.attribute === stream.id)) {
+            remoteVideo.srcObject = stream;
+            remoteVideo.attribute = stream.id;
+          } else if (!(remoteVideo1.srcObject || remoteVideo1.attribute === stream.id)) {
+            remoteVideo1.srcObject = stream;
+            remoteVideo1.attribute = stream.id;
+          } else if (!(remoteVideo2.srcObject || remoteVideo2.attribute === stream.id)) {
+            remoteVideo2.srcObject = stream;
+            remoteVideo2.attribute = stream.id;
+          }
         }
       };
       pcs.push(newPc);
@@ -150,6 +157,7 @@ function startWebRTC() {
         });
         newPc.pc.ontrack = event => {
           const stream = event.streams[0];
+
           if (!remoteVideo.srcObject) {
             remoteVideo.srcObject = stream;
           } else if (!remoteVideo1.srcObject) {
