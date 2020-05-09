@@ -46,24 +46,6 @@ let uiConfig = {
             user = authResult.user;
             userpath = db.collection("users").doc(user.uid)
             if (authResult.additionalUserInfo.isNewUser) {
-<<<<<<< HEAD
-                db.collection("users").doc(user.uid).set({
-                    friendid: user.uid,
-                    name: user.displayName,
-                    email: user.email,
-                    interests: {
-                        sports: false,
-                        finance: false,
-                        cooking: false,
-                        restaurants: false,
-                        tvshows: false
-                    },
-                }).then(function () {
-                    console.log("New user added to firestore");
-                    window.location.assign("HTML/home.html");
-                })
-                    .catch(function (error) {
-=======
                     userpath.set({
                         friendid: user.uid,
                         name: user.displayName,
@@ -81,7 +63,6 @@ let uiConfig = {
                     }).then(function () {
                         window.location.assign("index.html");
                     }).catch(function (error) {
->>>>>>> 2b99489f381ce1f5dcb238eca2bdec572d5f4c60
                         console.log("Error adding new user: " + error);
                     });
             } else {
