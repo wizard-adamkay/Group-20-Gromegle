@@ -39,7 +39,7 @@
                             <form class="form-container">
                                 <label for="email"><b>Add friend by email:</b></label>
                                 <input type="email" placeholder="Enter Email" name="email" required>
-                                <button onclick="addFriend()" type="button" class="btn">Send friend Request</button>
+                                <button onclick="addFriend()" type="submit" class="btn">Send friend Request</button>
                                 <button type="button" class="btn cancel" onclick="closeFriends()">Close</button>
                             </form>
                         </div>
@@ -54,12 +54,6 @@
                 </tr>
             </thead>
             <tbody id="interestTable">
-                <tr>
-                    <td scope="row">Interest1</td>
-                </tr>
-                <tr>
-                    <td scope="row">Interest2</td>
-                </tr>
             </tbody>
             <tfoot>
                 <tr>
@@ -70,8 +64,8 @@
                         <div class="form-popup" id="interestForm">
                             <form class="form-container">
                                 <label for="text"><b>Add an interest:</b></label>
-                                <input type="text" placeholder="Enter Interest" name="text" required>
-                                <button type="button" class="btn">Add Interest</button>
+                                <input type="text" placeholder="Enter Interest" name="interest" required>
+                                <button onclick="addInterest()" type="button" class="btn">Add Interest</button>
                                 <button type="button" class="btn cancel" onclick="closeInterests()">Close</button>
                             </form>
                         </div>

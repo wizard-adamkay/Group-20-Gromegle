@@ -53,18 +53,9 @@ let uiConfig = {
                         reportcount: 0,
                         bio: "Empty",
                         pfplink: "Empty",
-                    }).then(function () {
-                        console.log("New user added to firestore");
-                        addSports();
-                    }).then(function () {    
-                        addFood();
-                    }).then(function () {
-                        addMoney();
-                    }).then(function () {
-                        window.location.assign("index.html");
-                    }).catch(function (error) {
-                        console.log("Error adding new user: " + error);
-                    });
+                        interests: [],
+                        friends: []
+                    })
             } else {
                 return true;
             }
@@ -100,37 +91,3 @@ let uiConfig = {
 // The start method will wait until the DOM is loaded.
 // Inject the login interface into the HTML
 ui.start('#firebaseui-auth-container', uiConfig);
-
-
-//this is referenced in the login function, and adds all the toggleable interests.
-//said interests are set in separate functions for slightly faster viewing and sortability
-//for the readers.
-function addSports(){
-    userpath.collection("interests").add({
-        Category: "Sports",
-        Hockey: false,
-        Basketball: false,
-        GridIron: false,
-        Football: false
-    });
-}
-
-function addFood(){
-    userpath.collection("interests").add({
-        Category: "Food",
-        Cooking: false,
-        MasterChef: false,
-        MichelinStars: false,
-        NewRestaurants: false
-    });
-}
-
-function addMoney(){
-    userpath.collection("interests").add({
-        Category: "Wealth",
-        Investing: false,
-        Business: false,
-        LifeTips: false,
-        RealEstate: false
-    });
-}

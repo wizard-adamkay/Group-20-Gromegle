@@ -22,10 +22,16 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 const friends = myData.friends;
+                const interests = myData.interests;
                 friends.forEach(friend => {
                     let first = '<tr><td scope="row">';
                     let last = "</td></tr>";
                     $("#friendTable").append(first + friend + last);
+                });
+                interests.forEach(interest => {
+                    let first = '<tr><td scope="row">';
+                    let last = "</td></tr>";
+                    $("#interestTable").append(first + interest + last);
                 });
             }
         }).catch(function (error) {
@@ -59,43 +65,43 @@ function closeInterests() {
 function randomGroup() {
     var count = 0;
     db.collection("rooms").where("memberCount", "<", 4)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            const data = doc.data();
-            db.collection("rooms").doc(doc.id).update({
-              "memberCount": data.memberCount + 1
-            }).then(() => {
-              window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                const data = doc.data();
+                db.collection("rooms").doc(doc.id).update({
+                    "memberCount": data.memberCount + 1
+                }).then(() => {
+                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                });
+                console.log(data);
+
+                count++;
             });
-            console.log(data);
-            
-          count++;
+        }).then(() => {
+            if (count == 0) {
+                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+                var roomHash = hash.substring(1);
+                db.collection("rooms").add({
+                    hash: roomHash,
+                    memberCount: 1,
+                }).then(function (docRef) {
+                    console.log(docRef);
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        console.log("Error getting document:", error);
+                    });
+                })
+            }
         });
-    }).then(() => {
-      if (count == 0) {
-        var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-        var roomHash = hash.substring(1);
-        db.collection("rooms").add({
-          hash: roomHash,
-          memberCount: 1,
-        }).then(function(docRef) {
-          console.log(docRef);
-         docRef.get().then(function(doc) {
-          if (doc.exists) {
-              const data = doc.data();
-              window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-          } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-          }
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
-        })
-      }
-    });
-   
+
     console.log("randomGroup()");
     return false;
 }
@@ -116,4 +122,16 @@ function addFriend() {
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
+        setTimeout("location.reload(true);", 1000);
+}
+
+function addInterest() {
+    var provInterest = $("input[type=text][name=interest]").val();
+    console.log(provInterest);
+    var users = db.collection("users");
+    let user = firebase.auth().currentUser;
+    db.collection("users").doc(user.uid).update({
+        interests: firebase.firestore.FieldValue.arrayUnion(provInterest)
+    });
+    setTimeout("location.reload(true);", 1000);
 }
