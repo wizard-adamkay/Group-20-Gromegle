@@ -23,16 +23,8 @@ firebase.auth().onAuthStateChanged(function (user) {
                 const myData = doc.data();
                 const friends = myData.friends;
                 const interests = myData.interests;
-                friends.forEach(friend => {
-                    let first = '<tr><td scope="row">';
-                    let last = "</td></tr>";
-                    $("#friendTable").append(first + friend + last);
-                });
-                interests.forEach(interest => {
-                    let first = '<tr><td scope="row">';
-                    let last = "</td></tr>";
-                    $("#interestTable").append(first + interest + last);
-                });
+                addToList(friends, "#friendTable", user);
+                addToList(interests, "#interestTable", user);
             }
         }).catch(function (error) {
             console.log("Got an error: ", error);
@@ -41,6 +33,32 @@ firebase.auth().onAuthStateChanged(function (user) {
         // No user is signed in.
     }
 });
+
+function addToList(from, to, user) {
+    from.forEach(stored => {
+        let tr = document.createElement('tr');
+        tr.id = stored;
+        let info = document.createElement('td');
+        info.scope = 'row';
+        let cross = document.createElement('td');
+        cross.scope = 'row';
+        info.textContent = stored;
+        cross.textContent = "X";
+        tr.appendChild(info);
+        tr.appendChild(cross);
+        $(to).append(tr);
+        // deleting data
+        cross.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cross.parentElement.style = "display: none;";
+            let userRef = db.collection('users').doc(user.uid);
+            userRef.update({
+                interests: firebase.firestore.FieldValue.arrayRemove(stored),
+                friends: firebase.firestore.FieldValue.arrayRemove(stored)
+            });
+        });
+    });
+}
 
 function showFriendsOption() {
     document.getElementById("friendForm").style.display = "block";
@@ -109,11 +127,12 @@ function randomGroup() {
 function addFriend() {
     var provEmail = $("input[type=email][name=email]").val();
     var users = db.collection("users");
-
+    console.log("kk");
     users.where("email", "==", provEmail).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 let user = firebase.auth().currentUser;
+                
                 db.collection("users").doc(user.uid).update({
                     friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
                 });
@@ -122,13 +141,12 @@ function addFriend() {
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-        setTimeout("location.reload(true);", 1000);
+    setTimeout("location.reload(true);", 1000);
 }
 
 function addInterest() {
     var provInterest = $("input[type=text][name=interest]").val();
     console.log(provInterest);
-    var users = db.collection("users");
     let user = firebase.auth().currentUser;
     db.collection("users").doc(user.uid).update({
         interests: firebase.firestore.FieldValue.arrayUnion(provInterest)
