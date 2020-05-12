@@ -41,6 +41,7 @@ function addToList(from, to, user) {
         let info = document.createElement('td');
         info.scope = 'row';
         let cross = document.createElement('td');
+        cross.classList = ('close');
         cross.scope = 'row';
         info.textContent = stored;
         cross.textContent = "X";
