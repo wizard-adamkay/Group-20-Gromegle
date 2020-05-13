@@ -1,43 +1,5 @@
 const roomHash = location.hash.substring(1);
 console.log(roomHash);
-// Your web app's Firebase configuration
-var firebaseConfig = {
-    apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
-    authDomain: "gromegle-38a5f.firebaseapp.com",
-    databaseURL: "https://gromegle-38a5f.firebaseio.com",
-    projectId: "gromegle-38a5f",
-    storageBucket: "gromegle-38a5f.appspot.com",
-    messagingSenderId: "850757928386",
-    appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
-    measurementId: "G-R6DWLFVZQY"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var uid = firebase.auth().currentUser.uid;
-var userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
-var isOfflineForDatabase = {
-    state: 'offline',
-    last_changed: firebase.database.ServerValue.TIMESTAMP,
-};
-
-var isOnlineForDatabase = {
-    state: 'online',
-    last_changed: firebase.database.ServerValue.TIMESTAMP,
-};
-firebase.database().ref('.info/connected').on('value', function(snapshot) {
-  if (snapshot.val() == false) {
-      return;
-  };
-  const roomRef = db.collection("users").where("hash", "==", roomHash);
-  const increment = firebase.firestore.FieldValue.increment(1);
-  userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
-    userStatusDatabaseRef.set(isOnlineForDatabase);
-    roomRef.update({reads: increment});
-  });
-});
-
-
-
 //Variables
 const drone = new ScaleDrone('BIZhUxYEmI9Hwh9I');
 const roomName = 'observable-' + roomHash;
@@ -75,7 +37,7 @@ function onError(error) {
 //Gets the user video and audio streams
 navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: false,
+    video: true,
   }).then(stream => {
     console.log(stream);
     localStream = stream;
