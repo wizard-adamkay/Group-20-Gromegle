@@ -57,25 +57,19 @@
                 </tr>
             </thead>
             <tbody id="interestTable">
-            </tbody>
-            <tfoot>
                 <tr>
-                    <td></td>
-                    <td>
-                        <button onclick="showInterestsOption()" type="button" class="plus popup">
-                            +
-                        </button>
-                        <div class="form-popup" id="interestForm">
-                            <form class="form-container">
-                                <label for="text"><b>Add an interest:</b></label>
-                                <input type="text" placeholder="Enter Interest" name="interest" required>
-                                <button onclick="addInterest()" type="button" class="btn">Add Interest</button>
-                                <button type="button" class="btn cancel" onclick="closeInterests()">Close</button>
-                            </form>
-                        </div>
-                    </td>
+                    <td>Cooking:<input type="checkbox" id="cooking"></td>
+                    <td>Excersize:<input type="checkbox" id="excersize"></td>
                 </tr>
-            </tfoot>
+                <tr>
+                    <td>Video Games:<input type="checkbox" id="videoGames"></td>
+                    <td>Sports:<input type="checkbox" id="sports"></td>
+                </tr>
+                <tr>
+                    <td>Studying:<input type="checkbox" id="studying"></td>
+                    <td>Movies:<input type="checkbox" id="movies"></td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div class="container">
