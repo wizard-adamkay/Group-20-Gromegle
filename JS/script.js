@@ -3,6 +3,20 @@ console.log(roomHash);
 //Variables
 const drone = new ScaleDrone('BIZhUxYEmI9Hwh9I');
 const roomName = 'observable-' + roomHash;
+var firebaseConfig = {
+    apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
+    authDomain: "gromegle-38a5f.firebaseapp.com",
+    databaseURL: "https://gromegle-38a5f.firebaseio.com",
+    projectId: "gromegle-38a5f",
+    storageBucket: "gromegle-38a5f.appspot.com",
+    messagingSenderId: "850757928386",
+    appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
+    measurementId: "G-R6DWLFVZQY"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 const configuration = {
   iceServers: [
             {
@@ -215,6 +229,19 @@ function startWebRTC() {
   });
   
   room.on('member_leave', member => {
+    console.log(roomHash);
+    db.collection("rooms").where("hash", "==", roomHash)
+    .get()
+    .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            const data = doc.data();
+          console.log(members.length);
+            db.collection("rooms").doc(doc.id).update({
+                "memberCount": members.length
+            });
+
+        });
+    });
     for (i = 0; i < pcs.length; i++) {
         console.log(pcs[i].id);
         if (pcs[i].id === member.id) {
@@ -235,6 +262,7 @@ function startWebRTC() {
         }
       }
   });
+  
 }
 
 //Updates the local description for a PC sdp
