@@ -22,12 +22,16 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 const friends = myData.friends;
-                const interests = myData.interests;
                 addToList(friends, "#friendTable", user);
-                addToList(interests, "#interestTable", user);
             }
         }).catch(function (error) {
             console.log("Got an error: ", error);
+        });
+        docRef.get().then(function (querySnapshot) {
+            querySnapshot.data().interests.forEach(x=>{
+                let chk = document.getElementById(x);
+                chk.checked = true;
+            })
         });
     } else {
         // No user is signed in.
@@ -54,12 +58,25 @@ function addToList(from, to, user) {
             cross.parentElement.style = "display: none;";
             let userRef = db.collection('users').doc(user.uid);
             userRef.update({
-                interests: firebase.firestore.FieldValue.arrayRemove(stored),
                 friends: firebase.firestore.FieldValue.arrayRemove(stored)
             });
         });
     });
 }
+
+$(":checkbox").click(function(){
+    var id = $(this).attr('id');
+    let user = firebase.auth().currentUser;
+    if(this.checked){
+        db.collection("users").doc(user.uid).update({
+            interests: firebase.firestore.FieldValue.arrayUnion(id)
+        });
+    } else{
+        db.collection("users").doc(user.uid).update({
+            interests: firebase.firestore.FieldValue.arrayRemove(id)
+        });
+    }
+});
 
 function showFriendsOption() {
     document.getElementById("friendForm").style.display = "block";
@@ -68,16 +85,6 @@ function showFriendsOption() {
 
 function closeFriends() {
     document.getElementById("friendForm").style.display = "none";
-    return false;
-}
-
-function showInterestsOption() {
-    document.getElementById("interestForm").style.display = "block";
-    return false;
-}
-
-function closeInterests() {
-    document.getElementById("interestForm").style.display = "none";
     return false;
 }
 
@@ -142,15 +149,5 @@ function addFriend() {
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-    setTimeout("location.reload(true);", 1000);
-}
-
-function addInterest() {
-    var provInterest = $("input[type=text][name=interest]").val();
-    console.log(provInterest);
-    let user = firebase.auth().currentUser;
-    db.collection("users").doc(user.uid).update({
-        interests: firebase.firestore.FieldValue.arrayUnion(provInterest)
-    });
     setTimeout("location.reload(true);", 1000);
 }
