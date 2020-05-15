@@ -13,6 +13,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Holds interests of logged in user.
+var currentuserinterests = [];
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -22,6 +24,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 const friends = myData.friends;
+                currentuserinterests = myData.interests;
                 addToList(friends, "#friendTable", user);
             }
         }).catch(function (error) {
@@ -76,7 +79,18 @@ $(":checkbox").click(function(){
             interests: firebase.firestore.FieldValue.arrayRemove(id)
         });
     }
+    db.collection("users").doc(user.uid).get().then(function(doc) {
+        if (doc.exists) {
+            let currentuserData = doc.data();
+            currentuserinterests = currentuserData.interests;
+            console.log(currentuserinterests);
+        } else {
+            console.log("Error finding document");
+        }
+    })
 });
+
+
 
 function showFriendsOption() {
     document.getElementById("friendForm").style.display = "block";
@@ -129,6 +143,76 @@ function randomGroup() {
         });
 
     console.log("randomGroup()");
+    return false;
+}
+function callInterestGroup() {
+    let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
+    console.log(selection);
+    switch (selection) {
+        case "cooking":
+            interestGroup("cooking_rooms");
+            break;
+        case "sports":
+            interestGroup("sports_rooms");
+            break;
+        case "videoGames":
+            interestGroup("game_rooms");
+            break;
+        case "studying":
+            interestGroup("study_rooms");
+            break;
+        case "movies":
+            interestGroup("movie_rooms");
+            break;
+        case "exercize":
+            interestGroup("exercise_rooms");
+            break;
+        default:
+            console.log("No interest match found");
+    }
+}
+
+function interestGroup(selectedinterest) {
+    var count2 = 0;
+    db.collection(selectedinterest).where("memberCount", "<", 4)
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                const data = doc.data();
+                db.collection("rooms").doc(doc.id).update({
+                    "memberCount": data.memberCount + 1
+                }).then(() => {
+                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                });
+                console.log(data);
+
+                count2++;
+            });
+        }).then(() => {
+            if (count2 == 0) {
+                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+                var roomHash = hash.substring(1);
+                db.collection("rooms").add({
+                    hash: roomHash,
+                    memberCount: 1,
+                }).then(function (docRef) {
+                    console.log(docRef);
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        console.log("Error getting document:", error);
+                    });
+                })
+            }
+        });
+
+    console.log("interestGroup()");
     return false;
 }
 
