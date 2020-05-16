@@ -17,50 +17,65 @@
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
 </head>
 <body>
+  
   <a href="home.html" id="backButton">Leave Room</a>
 
-  <p id="pageName"><strong>VideoChat</strong></p><br>
+  <p id="pageName"><strong>VideoChat</strong></p>
 
-  <p id="roomCategory"><strong>Random/Interest Grouping</strong></p><br>
 
-<div class="grid-container">
+  <div class="grid-container">
 
-  <div id="screencontainer1">
-    <video id="localVideo" autoplay muted onclick="overlay1on()"></video>
-    <span id="overlay1" onclick="overlay1off()"></span>
-    <p id="name1">Name 1</p>
-    <div id="showemoji1"><img id="emojicontainer1" src="" alt="Should be hidden"></div>
+    <div id="screencontainer1">
+      <video id="localVideo" autoplay muted onclick="overlay1on()"></video>
+      <span id="overlay1" onclick="overlay1off()"></span>
+      <p id="name1">Name 1</p>
+      <div id="showemoji1"><img id="emojicontainer1" src="" alt="Should be hidden"></div>
+    </div>
+    <div id="screencontainer2">
+      <video id="remoteVideo" autoplay onclick="overlay2on()"></video>
+      <span id="overlay2" onclick="overlay2off()"></span>
+      <p id="name2">Name 2</p>
+      <div id="showemoji2"><img id="emojicontainer2" src="" alt="Should be hidden"></div>
+    </div>
+    <div id="screencontainer3">
+      <video id="remoteVideo1" autoplay onclick="overlay3on()"></video>
+      <span id="overlay3" onclick="overlay3off()"></span>
+      <p id="name3">Name 3</p>
+      <div id="showemoji3"><img id="emojicontainer3" src="" alt="Should be hidden"></div>
+    </div>
+    <div id="screencontainer4">
+      <video id="remoteVideo2" autoplay onclick="overlay4on()"></video>
+      <span id="overlay4" onclick="overlay4off()"></span>
+      <p id="name4">Name 4</p>
+      <div id="showemoji4"><img id="emojicontainer4" src="" alt="Should be hidden"></div>
+    </div>
   </div>
-  <div id="screencontainer2">
-    <video id="remoteVideo" autoplay onclick="overlay2on()"></video>
-    <span id="overlay2" onclick="overlay2off()"></span>
-    <p id="name2">Name 2</p>
-    <div id="showemoji2"><img id="emojicontainer2" src="" alt="Should be hidden"></div>
-  </div>
-  <div id="screencontainer3">
-    <video id="remoteVideo1" autoplay onclick="overlay3on()"></video>
-    <span id="overlay3" onclick="overlay3off()"></span>
-    <p id="name3">Name 3</p>
-    <div id="showemoji3"><img id="emojicontainer3" src="" alt="Should be hidden"></div>
-  </div>
-  <div id="screencontainer4">
-    <video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video>
-    <span id="overlay4" onclick="overlay4off()"></span>
-    <p id="name4">Name 4</p>
-    <div id="showemoji4"><img id="emojicontainer4" src="" alt="Should be hidden"></div>
-  </div>
-</div>
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle"
-          type="button" id="dropdownMenu1" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-    Dropdown
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <span id="emojidisplay">
-    </span>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle"
+            type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      React
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <span id="emojidisplay">
+      </span>
+    </div>
+  </div>  
+  <div class="messageBox">
+    <div class="messages">
+    </div>
+    <form class="footer" onsubmit="return false;">
+      <input type="text" placeholder="Your message..">
+      <button type="submit">Send</button>
+    </form>
   </div>
 </div>  
+  <template data-template="message">
+    <div class="message">
+      <div class="message__name"></div>
+      <div class="message__bubble"></div>
+    </div>
+  </template>
   <script src="../JS/script.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

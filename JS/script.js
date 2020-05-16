@@ -225,6 +225,10 @@ function startWebRTC() {
         pcs[n].pc.addIceCandidate(
           new RTCIceCandidate(message.candidate), onSuccess, onError);
       }
+    } else if (message.text) {
+      console.log(message.text);
+      insertMessageToDOM(JSON.stringify(message.text), message.id, false)
+      
     }
   });
   
@@ -265,6 +269,36 @@ function startWebRTC() {
   
 }
 
+function insertMessageToDOM(text, id, isFromMe) {
+  const template = document.querySelector('template[data-template="message"]');
+  const nameEl = template.content.querySelector('.message__name');
+  template.content.querySelector('.message__bubble').innerText = text;
+  const clone = document.importNode(template.content, true);
+  const messageEl = clone.querySelector('.message');
+  if (isFromMe) {
+    messageEl.classList.add('message--mine');
+  } else {
+    messageEl.classList.add('message--theirs');
+  }
+  const messagesEl = document.querySelector('.messages');
+  messagesEl.appendChild(clone);
+
+  messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
+}
+
+const form = document.querySelector('form');
+form.addEventListener('submit', () => {
+  const input = document.querySelector('input[type="text"]');
+  const value = input.value;
+  input.value = '';
+  const data = {
+    name,
+    content: value,
+  };
+  sendMessage({'text': value, 'id': drone.clientId});
+
+  insertMessageToDOM(value, drone.clientId, true);
+});
 //Updates the local description for a PC sdp
 function localDescCreated(desc, id) {
   var n = -1;
@@ -342,7 +376,7 @@ function showPcs() {
 
 var storageRef = db.collection("users");
 var emojiArray;
-
+ 
 firebase.auth().onAuthStateChanged(function(user) {
 
 if (user) {
@@ -360,7 +394,6 @@ storageRef.doc(userid).get().then(function(doc) {
 // Place emojis onto dropdown list
 function generateEmojis() {
   console.log(emojiArray);
-
   for(let i = 0; i < emojiArray.length; i++) {
     var currentsource = emojiArray[i];
           console.log(currentsource);
@@ -414,4 +447,3 @@ db.collection("reactions").doc("reactionsrcs").onSnapshot(function(doc) {
 }, 2000);
 
 })
-
