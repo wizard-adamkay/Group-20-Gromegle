@@ -13,6 +13,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Holds interests of logged in user.
+var currentuserinterests = [];
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -22,25 +24,73 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 const friends = myData.friends;
-                const interests = myData.interests;
-                friends.forEach(friend => {
-                    let first = '<tr><td scope="row">';
-                    let last = "</td></tr>";
-                    $("#friendTable").append(first + friend + last);
-                });
-                interests.forEach(interest => {
-                    let first = '<tr><td scope="row">';
-                    let last = "</td></tr>";
-                    $("#interestTable").append(first + interest + last);
-                });
+                currentuserinterests = myData.interests;
+                addToList(friends, "#friendTable", user);
             }
         }).catch(function (error) {
             console.log("Got an error: ", error);
+        });
+        docRef.get().then(function (querySnapshot) {
+            querySnapshot.data().interests.forEach(x=>{
+                let chk = document.getElementById(x);
+                chk.checked = true;
+            })
         });
     } else {
         // No user is signed in.
     }
 });
+
+function addToList(from, to, user) {
+    from.forEach(stored => {
+        let tr = document.createElement('tr');
+        tr.id = stored;
+        let info = document.createElement('td');
+        info.scope = 'row';
+        let cross = document.createElement('td');
+        cross.classList = ('close');
+        cross.scope = 'row';
+        info.textContent = stored;
+        cross.textContent = "X";
+        tr.appendChild(info);
+        tr.appendChild(cross);
+        $(to).append(tr);
+        // deleting data
+        cross.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cross.parentElement.style = "display: none;";
+            let userRef = db.collection('users').doc(user.uid);
+            userRef.update({
+                friends: firebase.firestore.FieldValue.arrayRemove(stored)
+            });
+        });
+    });
+}
+
+$(":checkbox").click(function(){
+    var id = $(this).attr('id');
+    let user = firebase.auth().currentUser;
+    if(this.checked){
+        db.collection("users").doc(user.uid).update({
+            interests: firebase.firestore.FieldValue.arrayUnion(id)
+        });
+    } else{
+        db.collection("users").doc(user.uid).update({
+            interests: firebase.firestore.FieldValue.arrayRemove(id)
+        });
+    }
+    db.collection("users").doc(user.uid).get().then(function(doc) {
+        if (doc.exists) {
+            let currentuserData = doc.data();
+            currentuserinterests = currentuserData.interests;
+            console.log(currentuserinterests);
+        } else {
+            console.log("Error finding document");
+        }
+    })
+});
+
+
 
 function showFriendsOption() {
     document.getElementById("friendForm").style.display = "block";
@@ -49,16 +99,6 @@ function showFriendsOption() {
 
 function closeFriends() {
     document.getElementById("friendForm").style.display = "none";
-    return false;
-}
-
-function showInterestsOption() {
-    document.getElementById("interestForm").style.display = "block";
-    return false;
-}
-
-function closeInterests() {
-    document.getElementById("interestForm").style.display = "none";
     return false;
 }
 
@@ -105,15 +145,87 @@ function randomGroup() {
     console.log("randomGroup()");
     return false;
 }
+function callInterestGroup() {
+    let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
+    console.log(selection);
+    switch (selection) {
+        case "cooking":
+            interestGroup("cooking_rooms");
+            break;
+        case "sports":
+            interestGroup("sports_rooms");
+            break;
+        case "videoGames":
+            interestGroup("game_rooms");
+            break;
+        case "studying":
+            interestGroup("study_rooms");
+            break;
+        case "movies":
+            interestGroup("movie_rooms");
+            break;
+        case "exercize":
+            interestGroup("exercise_rooms");
+            break;
+        default:
+            console.log("No interest match found");
+            interestGroup("rooms");
+    }
+}
+
+function interestGroup(selectedinterest) {
+    var count2 = 0;
+    db.collection(selectedinterest).where("memberCount", "<", 4)
+        .get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                const data = doc.data();
+                db.collection(selectedinterest).doc(doc.id).update({
+                    "memberCount": data.memberCount + 1
+                }).then(() => {
+                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                });
+                console.log(data);
+
+                count2++;
+            });
+        }).then(() => {
+            if (count2 == 0) {
+                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+                var roomHash = hash.substring(1);
+                db.collection(selectedinterest).add({
+                    hash: roomHash,
+                    memberCount: 1,
+                }).then(function (docRef) {
+                    console.log(docRef);
+                    docRef.get().then(function (doc) {
+                        if (doc.exists) {
+                            const data = doc.data();
+                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        } else {
+                            // doc.data() will be undefined in this case
+                            console.log("No such document!");
+                        }
+                    }).catch(function (error) {
+                        console.log("Error getting document:", error);
+                    });
+                })
+            }
+        });
+
+    console.log("interestGroup()");
+    return false;
+}
 
 function addFriend() {
     var provEmail = $("input[type=email][name=email]").val();
     var users = db.collection("users");
-
+    console.log("kk");
     users.where("email", "==", provEmail).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 let user = firebase.auth().currentUser;
+                
                 db.collection("users").doc(user.uid).update({
                     friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
                 });
@@ -122,16 +234,5 @@ function addFriend() {
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-        setTimeout("location.reload(true);", 1000);
-}
-
-function addInterest() {
-    var provInterest = $("input[type=text][name=interest]").val();
-    console.log(provInterest);
-    var users = db.collection("users");
-    let user = firebase.auth().currentUser;
-    db.collection("users").doc(user.uid).update({
-        interests: firebase.firestore.FieldValue.arrayUnion(provInterest)
-    });
     setTimeout("location.reload(true);", 1000);
 }

@@ -53,6 +53,9 @@ h1{
     display: block;
     width: 100%;
 }
+.close{
+  text-align: right;
+}
 .card{
     margin-top: 15px;
     width: 250px;

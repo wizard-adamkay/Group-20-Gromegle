@@ -25,12 +25,14 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Friends List</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="friendTable">
             </tbody>
             <tfoot>
                 <tr>
+                    <td></td>
                     <td>
                         <button onclick="showFriendsOption()" type="button" class="plus open-button">
                             +
@@ -39,7 +41,7 @@
                             <form class="form-container">
                                 <label for="email"><b>Add friend by email:</b></label>
                                 <input type="email" placeholder="Enter Email" name="email" required>
-                                <button onclick="addFriend()" type="submit" class="btn">Send friend Request</button>
+                                <button onclick="addFriend()" type="button" class="btn">Send friend Request</button>
                                 <button type="button" class="btn cancel" onclick="closeFriends()">Close</button>
                             </form>
                         </div>
@@ -51,27 +53,23 @@
             <thead class="thead-dark">
                 <tr>
                     <th>Interests</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="interestTable">
-            </tbody>
-            <tfoot>
                 <tr>
-                    <td>
-                        <button onclick="showInterestsOption()" type="button" class="plus popup">
-                            +
-                        </button>
-                        <div class="form-popup" id="interestForm">
-                            <form class="form-container">
-                                <label for="text"><b>Add an interest:</b></label>
-                                <input type="text" placeholder="Enter Interest" name="interest" required>
-                                <button onclick="addInterest()" type="button" class="btn">Add Interest</button>
-                                <button type="button" class="btn cancel" onclick="closeInterests()">Close</button>
-                            </form>
-                        </div>
-                    </td>
+                    <td>Cooking:<input type="checkbox" id="cooking"></td>
+                    <td>Excersize:<input type="checkbox" id="excersize"></td>
                 </tr>
-            </tfoot>
+                <tr>
+                    <td>Video Games:<input type="checkbox" id="videoGames"></td>
+                    <td>Sports:<input type="checkbox" id="sports"></td>
+                </tr>
+                <tr>
+                    <td>Studying:<input type="checkbox" id="studying"></td>
+                    <td>Movies:<input type="checkbox" id="movies"></td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div class="container">
@@ -79,7 +77,7 @@
             <button type="button" onclick="randomGroup()" class="chat">Chat With a Random Group</button>
         </div>
         <div>
-            <button type="button" class="chat">Chat With a Group With Similar Interests</button>
+            <button type="button" onclick="callInterestGroup()" class="chat">Chat With a Group With Similar Interests</button>
         </div>
     </div>
 
