@@ -169,6 +169,7 @@ function callInterestGroup() {
             break;
         default:
             console.log("No interest match found");
+            interestGroup("rooms");
     }
 }
 
@@ -179,7 +180,7 @@ function interestGroup(selectedinterest) {
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 const data = doc.data();
-                db.collection("rooms").doc(doc.id).update({
+                db.collection(selectedinterest).doc(doc.id).update({
                     "memberCount": data.memberCount + 1
                 }).then(() => {
                     window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
@@ -192,7 +193,7 @@ function interestGroup(selectedinterest) {
             if (count2 == 0) {
                 var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
                 var roomHash = hash.substring(1);
-                db.collection("rooms").add({
+                db.collection(selectedinterest).add({
                     hash: roomHash,
                     memberCount: 1,
                 }).then(function (docRef) {
