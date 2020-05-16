@@ -54,7 +54,19 @@ let uiConfig = {
                         bio: "Empty",
                         pfplink: "Empty",
                         interests: [],
-                        friends: []
+                        friends: [],
+                        emojis: ["https://i.imgur.com/QhkFO3J.png",
+                                "https://i.imgur.com/h4kBtuV.png",
+                                "https://i.imgur.com/U59pzb0.png",
+                                "https://i.imgur.com/070RCR6.png",
+                                "https://i.imgur.com/4EJW8g3.png",
+                                "https://i.imgur.com/f0Ny289.png",
+                                "https://i.imgur.com/qIOg0TY.png",
+                                "https://i.imgur.com/9IE3hgj.png",
+                                "https://i.imgur.com/3DRphFT.png",
+                                "https://i.imgur.com/53goBP7.png",
+                                "https://i.imgur.com/zgtGRcx.png",
+                                "https://i.imgur.com/tQnpLPr.png"]
                     })
             } else {
                 return true;
