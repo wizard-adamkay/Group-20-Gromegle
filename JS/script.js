@@ -17,81 +17,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-var storageRef = db.collection("users");
-var emojiArray;
-
-firebase.auth().onAuthStateChanged(function(user) {
-
-if (user) {
-  // User is signed in.
-  console.log("User is signed in");
-  let userid = user.uid;
-storageRef.doc(userid).get().then(function(doc) {
-  emojiArray = doc.data().emojis;
-})
-} else {
-  // No user is signed in.
-  console.log("User is not signed in");
-}
-})
-// Place emojis onto dropdown list
-function generateEmojis() {
-  console.log(emojiArray);
-
-  for(let i = 0; i < emojiArray.length; i++) {
-    var currentsource = emojiarray[i];
-          console.log(currentsource);
-          let currentemoji = document.createElement("img");
-          currentemoji.src = currentsource;
-          currentemoji.className = "dropdown-item";
-          currentemoji.onclick = function() {
-            db.collection("reactions").doc("reactionsrcs").set({
-              imagetodisplay: this.src
-            })
-          }
-          
-    let target = document.getElementById("emojidisplay");
-    target.appendChild(currentemoji);
-  }
-}
-setTimeout(generateEmojis, 1000);
-
-db.collection("reactions").doc("reactionsrcs").onSnapshot(function(doc) {
-  
-  let container1 = document.getElementById("emojicontainer1");
-  let container2 = document.getElementById("emojicontainer2");
-  let container3 = document.getElementById("emojicontainer3");
-  let container4 = document.getElementById("emojicontainer4");
-  // Set sources.
-  let newsrc = doc.data().imagetodisplay;
-  container1.src = newsrc;
-  container2.src = newsrc;
-  container3.src = newsrc;
-  container4.src = newsrc;
-  // Set viewability and timeline.
-  let viewemoji1 = document.getElementById("showemoji1")
-  viewemoji1.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji1.style.display = 'none';
-}, 2000);
-  let viewemoji2 = document.getElementById("showemoji2")
-  viewemoji2.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji2.style.display = 'none';
-}, 2000);
-  let viewemoji3 = document.getElementById("showemoji3")
-  viewemoji3.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji3.style.display = 'none';
-}, 2000);
-  let viewemoji4 = document.getElementById("showemoji4")
-  viewemoji4.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji4.style.display = 'none';
-}, 2000);
-
-})
-
 const configuration = {
   iceServers: [
             {
@@ -414,3 +339,79 @@ function showPcs() {
   console.log(remoteVideo2.srcObject);
 
 }
+
+var storageRef = db.collection("users");
+var emojiArray;
+
+firebase.auth().onAuthStateChanged(function(user) {
+
+if (user) {
+  // User is signed in.
+  console.log("User is signed in");
+  let userid = user.uid;
+storageRef.doc(userid).get().then(function(doc) {
+  emojiArray = doc.data().emojis;
+})
+} else {
+  // No user is signed in.
+  console.log("User is not signed in");
+}
+})
+// Place emojis onto dropdown list
+function generateEmojis() {
+  console.log(emojiArray);
+
+  for(let i = 0; i < emojiArray.length; i++) {
+    var currentsource = emojiarray[i];
+          console.log(currentsource);
+          let currentemoji = document.createElement("img");
+          currentemoji.src = currentsource;
+          currentemoji.className = "dropdown-item";
+          currentemoji.onclick = function() {
+            db.collection("reactions").doc("reactionsrcs").set({
+              imagetodisplay: this.src
+            })
+          }
+          
+    let target = document.getElementById("emojidisplay");
+    target.appendChild(currentemoji);
+  }
+}
+setTimeout(generateEmojis, 1000);
+
+db.collection("reactions").doc("reactionsrcs").onSnapshot(function(doc) {
+  
+  let container1 = document.getElementById("emojicontainer1");
+  let container2 = document.getElementById("emojicontainer2");
+  let container3 = document.getElementById("emojicontainer3");
+  let container4 = document.getElementById("emojicontainer4");
+  // Set sources.
+  let newsrc = doc.data().imagetodisplay;
+  container1.src = newsrc;
+  container2.src = newsrc;
+  container3.src = newsrc;
+  container4.src = newsrc;
+  // Set viewability and timeline.
+  let viewemoji1 = document.getElementById("showemoji1")
+  viewemoji1.style.display = 'inline';
+  setTimeout(function() {
+  viewemoji1.style.display = 'none';
+}, 2000);
+  let viewemoji2 = document.getElementById("showemoji2")
+  viewemoji2.style.display = 'inline';
+  setTimeout(function() {
+  viewemoji2.style.display = 'none';
+}, 2000);
+  let viewemoji3 = document.getElementById("showemoji3")
+  viewemoji3.style.display = 'inline';
+  setTimeout(function() {
+  viewemoji3.style.display = 'none';
+}, 2000);
+  let viewemoji4 = document.getElementById("showemoji4")
+  viewemoji4.style.display = 'inline';
+  setTimeout(function() {
+  viewemoji4.style.display = 'none';
+}, 2000);
+
+})
+
