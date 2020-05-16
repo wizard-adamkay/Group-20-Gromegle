@@ -362,7 +362,7 @@ function generateEmojis() {
   console.log(emojiArray);
 
   for(let i = 0; i < emojiArray.length; i++) {
-    var currentsource = emojiarray[i];
+    var currentsource = emojiArray[i];
           console.log(currentsource);
           let currentemoji = document.createElement("img");
           currentemoji.src = currentsource;
