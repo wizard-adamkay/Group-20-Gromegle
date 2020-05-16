@@ -23,3 +23,94 @@ body {
     font-size: 16px;
     color: rgba(0, 0, 0, 0.5);
   }
+/*puts the video and overlay containers on a grid.*/
+.grid-container{
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 2;
+  padding: 10px;
+}
+/*screencontainer1, overlay1, and localVideo, are one grid group.*/
+#screencontainer1{
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+}
+#localVideo{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+#overlay1{
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background: transparent url(../images/partyhat.png) no-repeat;
+}
+/*screencontainer2, overlay2, and remoteVideo, are one grid group.*/
+#screencontainer2{
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+}
+#remoteVideo{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+#overlay2{
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background: transparent url(../images/thoughtbubble.png) no-repeat;
+}
+/*screencontainer3, overlay3, and remoteVideo1, are one grid group.*/
+#screencontainer3{
+  position: relative;
+  grid-column: 1;
+  grid-row: 2;
+}
+#remoteVideo1{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+#overlay3{
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background: transparent url(../images/thundercloud.png) no-repeat;
+}
+/*screencontainer4, overlay4, and remoteVideo2, are one grid group.*/
+#screencontainer4{
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+}
+#remoteVideo2{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+#overlay4{
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background: transparent url(../images/vikinghelmet.png) no-repeat;
+}

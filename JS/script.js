@@ -228,3 +228,49 @@ function localDescCreated(desc, id) {
   );
   
 }
+
+//this is a rewrite of the functions toggling the overlays for the videos.
+let count1 = 0;
+let count2 = 0;
+let count3 = 0;
+let count4 = 0;
+//these two functions toggle on and off overlay1
+function overlay1on(){
+  count1+= 1;
+  if (count1 > 5){
+    document.getElementById("overlay1").style.display= "block";
+  }
+}
+function overlay1off(){
+    document.getElementById("overlay1").style.display= "none";
+}
+//these two functions toggle on and off overlay2
+function overlay2on(){
+  count2+= 1;
+  if (count2 > 5){
+    document.getElementById("overlay2").style.display= "block";
+  }
+}
+function overlay2off(){
+    document.getElementById("overlay2").style.display= "none";
+}
+//these two functions toggle on and off overlay3
+function overlay3on(){
+  count3+= 1;
+  if (count3 > 5){
+    document.getElementById("overlay3").style.display= "block";
+  }
+}
+function overlay3off(){
+    document.getElementById("overlay3").style.display= "none";
+}
+//these two functions toggle on and off overlay4
+function overlay4on(){
+  count4+= 1;
+  if (count4 > 5){
+    document.getElementById("overlay4").style.display= "block";
+  }
+}
+function overlay4off(){
+    document.getElementById("overlay4").style.display= "none";
+}
