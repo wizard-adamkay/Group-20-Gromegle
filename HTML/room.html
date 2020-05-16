@@ -17,14 +17,16 @@
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
 </head>
 <body>
-  <body>
+  <a href="home.html" id="backButton">Leave Room</a>
+  <p id="pageName"><strong>VideoChat</strong></p><br>
+  <p id="roomCategory"><strong>Random/Interest Grouping</strong></p><br>
   <div class="grid-container">
-  <div id="screencontainer1"><video id="localVideo" autoplay muted onclick="overlay1on()"></video><span id="overlay1" onclick="overlay1off()"></span></div>
-  <div id="screencontainer2"><video id="remoteVideo" autoplay onclick="overlay2on()"></video><span id="overlay2" onclick="overlay2off()"></span></div>
-  <div id="screencontainer3"><video id="remoteVideo1" autoplay onclick="overlay3on()"></video><span id="overlay3" onclick="overlay3off()"></span></div>
-  <div id="screencontainer4"><video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video><span id="overlay4" onclick="overlay4off()"></span></div>
+  <div id="screencontainer1"><video id="localVideo" autoplay muted onclick="overlay1on()"></video><span id="overlay1" onclick="overlay1off()"></span><p id="name1">Name 1</p></div>
+  <div id="screencontainer2"><video id="remoteVideo" autoplay onclick="overlay2on()"></video><span id="overlay2" onclick="overlay2off()"></span><p id="name2">Name 2</p></div>
+  <div id="screencontainer3"><video id="remoteVideo1" autoplay onclick="overlay3on()"></video><span id="overlay3" onclick="overlay3off()"></span><p id="name3">Name 3</p></div>
+  <div id="screencontainer4"><video id="remoteVideo2" autoplay onclick="overlay4on()"></video><span id="overlay4" onclick="overlay4off()"></span><p id="name4">Name 4</p></div>
 </div>
-  <button onclick="showPcs()" type="button">Click me for debugging fun</button>
+  <button onclick="showPcs()" type="button" id="debugButton">Click me for debugging fun</button>
   <script src="../JS/script.js"></script>
   
 </body>
