@@ -55,6 +55,9 @@ let uiConfig = {
                         pfplink: "Empty",
                         interests: [],
                         friends: []
+                    }).then(function () {
+                        console.log("New user added to firestore");
+                        window.location.assign("HTML/home.html");
                     })
             } else {
                 return true;
