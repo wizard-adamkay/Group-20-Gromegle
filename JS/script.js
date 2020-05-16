@@ -420,6 +420,7 @@ db.collection("reactions").doc("reactionsrcs").onSnapshot(function(doc) {
   let container4 = document.getElementById("emojicontainer4");
   // Set sources.
   let newsrc = doc.data().imagetodisplay;
+  console.log(newsrc);
   container1.src = newsrc;
   container2.src = newsrc;
   container3.src = newsrc;
