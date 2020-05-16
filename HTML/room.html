@@ -19,12 +19,37 @@
 <body>
   <body>
   <div class="grid-container">
-  <div id="screencontainer1"><video id="localVideo" autoplay muted onclick="overlay1on()"></video><span id="overlay1" onclick="overlay1off()"></span></div>
-  <div id="screencontainer2"><video id="remoteVideo" autoplay onclick="overlay2on()"></video><span id="overlay2" onclick="overlay2off()"></span></div>
-  <div id="screencontainer3"><video id="remoteVideo1" autoplay onclick="overlay3on()"></video><span id="overlay3" onclick="overlay3off()"></span></div>
-  <div id="screencontainer4"><video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video><span id="overlay4" onclick="overlay4off()"></span></div>
+  <div id="screencontainer1">
+    <video id="localVideo" autoplay muted onclick="overlay1on()"></video>
+    <span id="overlay1" onclick="overlay1off()"></span>
+    <div id="showemoji1"><img id="emojicontainer1" src="" alt="Should be hidden"></div>
+  </div>
+  <div id="screencontainer2">
+    <video id="remoteVideo" autoplay onclick="overlay2on()"></video>
+    <span id="overlay2" onclick="overlay2off()"></span>
+    <div id="showemoji2"><img id="emojicontainer2" src="" alt="Should be hidden"></div>
+  </div>
+  <div id="screencontainer3">
+    <video id="remoteVideo1" autoplay onclick="overlay3on()"></video>
+    <span id="overlay3" onclick="overlay3off()"></span>
+    <div id="showemoji3"><img id="emojicontainer3" src="" alt="Should be hidden"></div>
+  </div>
+  <div id="screencontainer4">
+    <video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video>
+    <span id="overlay4" onclick="overlay4off()"></span>
+    <div id="showemoji4"><img id="emojicontainer4" src="" alt="Should be hidden"></div>
+  </div>
 </div>
-  <button onclick="showPcs()" type="button">Click me for debugging fun</button>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      React
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <span id="emojidisplay">
+            <!-- Emojis will populate here -->
+        </span>
+    </div>
+</div>
   <script src="../JS/script.js"></script>
   
 </body>

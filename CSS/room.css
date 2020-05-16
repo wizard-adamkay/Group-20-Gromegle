@@ -114,3 +114,47 @@ body {
 	z-index: 2;
 	background: transparent url(../images/vikinghelmet.png) no-repeat;
 }
+#emojidisplay {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+#emojidisplay > img {
+  width: 10px;
+  height: 10px;
+}
+#showemoji1 {
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+}
+#showemoji2 {
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+}
+#showemoji3 {
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+}
+#showemoji4 {
+  display: none;
+  position:absolute;
+	top: -50px;
+	left: 125px;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+}
