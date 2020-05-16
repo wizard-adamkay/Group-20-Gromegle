@@ -17,22 +17,22 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Setup active user reference.
-var userRef = firebase.auth().currentUser.uid;
-// Storage reference
 var storageRef = db.collection("users");
+var emojiArray;
 
-if (userRef) {
+firebase.auth().onAuthStateChanged(function(user) {
+
+if (user) {
   // User is signed in.
   console.log("User is signed in");
+  let userid = user.uid;
+storageRef.doc(userid).get().then(function(doc) {
+  emojiArray = doc.data().emojis;
+})
 } else {
   // No user is signed in.
   console.log("User is not signed in");
 }
-// Array to hold user emojis
-var emojiArray;
-storageRef.doc(userRef).get().then(function(doc) {
-  emojiArray = doc.data().emojis;
 })
 // Place emojis onto dropdown list
 function generateEmojis() {
