@@ -66,7 +66,10 @@ let uiConfig = {
                                 "https://i.imgur.com/3DRphFT.png",
                                 "https://i.imgur.com/53goBP7.png",
                                 "https://i.imgur.com/zgtGRcx.png",
-                                "https://i.imgur.com/tQnpLPr.png"]
+                                "https://i.imgur.com/tQnpLPr.png"]  
+                    }).then(function () {
+                        console.log("New user added to firestore");
+                        window.location.assign("HTML/home.html");
                     })
             } else {
                 return true;
