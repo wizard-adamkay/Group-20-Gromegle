@@ -15,36 +15,6 @@
   <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
-<style>
-    body {
-      height: 100vh;
-      margin: 0;
-      align-items: center;
-      justify-content: center;
-      padding: 0 50px;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    video {
-      max-width: calc(50% - 150px);
-      margin: 0 50px;
-      box-sizing: border-box;
-      border-radius: 2px;
-      padding: 0;
-      box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
-    }
-    .copy {
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 16px;
-      color: rgba(0, 0, 0, 0.5);
-    }
-    button {
-      height: 5vh;
-      width: 10vh;
-    }
-  </style>
 </head>
 <body>
   <body>
@@ -54,11 +24,6 @@
   <div id="screencontainer3"><video id="remoteVideo1" autoplay onclick="overlay3on()"></video><span id="overlay3" onclick="overlay3off()"></span></div>
   <div id="screencontainer4"><video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video><span id="overlay4" onclick="overlay4off()"></span></div>
 </div>
-  <video id="localVideo" autoplay muted></video>
-  <video id="remoteVideo" autoplay></video>
-  <video id="remoteVideo1" autoplay></video>
-  <video id="remoteVideo2" autoplay></video>
-
   <button onclick="showPcs()" type="button">Click me for debugging fun</button>
   <script src="../JS/script.js"></script>
   
