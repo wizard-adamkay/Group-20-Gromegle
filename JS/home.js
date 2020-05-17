@@ -26,18 +26,13 @@ firebase.auth().onAuthStateChanged(function (user) {
                 const friends = myData.friends;
                 currentuserinterests = myData.interests;
                 addToList(friends, "#friendTable", user);
+                currentuserinterests.forEach(interest=>{
+                    let chk = document.getElementById(interest).checked = true;
+                })
             }
         }).catch(function (error) {
             console.log("Got an error: ", error);
         });
-        docRef.get().then(function (querySnapshot) {
-            querySnapshot.data().interests.forEach(x=>{
-                let chk = document.getElementById(x);
-                chk.checked = true;
-            })
-        });
-    } else {
-        // No user is signed in.
     }
 });
 
@@ -74,20 +69,13 @@ $(":checkbox").click(function(){
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayUnion(id)
         });
+        currentuserinterests.push(this.id);
     } else{
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayRemove(id)
         });
+        currentuserinterests = currentuserinterests.filter(e => e !== this.id);
     }
-    db.collection("users").doc(user.uid).get().then(function(doc) {
-        if (doc.exists) {
-            let currentuserData = doc.data();
-            currentuserinterests = currentuserData.interests;
-            console.log(currentuserinterests);
-        } else {
-            console.log("Error finding document");
-        }
-    })
 });
 
 
@@ -102,49 +90,6 @@ function closeFriends() {
     return false;
 }
 
-function randomGroup() {
-    var count = 0;
-    db.collection("rooms").where("memberCount", "<", 4)
-        .get()
-        .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                const data = doc.data();
-                db.collection("rooms").doc(doc.id).update({
-                    "memberCount": data.memberCount + 1
-                }).then(() => {
-                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                });
-                console.log(data);
-
-                count++;
-            });
-        }).then(() => {
-            if (count == 0) {
-                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-                var roomHash = hash.substring(1);
-                db.collection("rooms").add({
-                    hash: roomHash,
-                    memberCount: 1,
-                }).then(function (docRef) {
-                    console.log(docRef);
-                    docRef.get().then(function (doc) {
-                        if (doc.exists) {
-                            const data = doc.data();
-                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-                })
-            }
-        });
-
-    console.log("randomGroup()");
-    return false;
-}
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
     console.log(selection);
@@ -152,7 +97,8 @@ function callInterestGroup() {
 }
 
 function interestGroup(selectedinterest) {
-    var count2 = 0;
+    selectedinterest = selectedinterest || "rooms";
+    let count = 0;
     db.collection(selectedinterest).where("memberCount", "<", 4)
         .get()
         .then(function (querySnapshot) {
@@ -164,11 +110,10 @@ function interestGroup(selectedinterest) {
                     window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
                 });
                 console.log(data);
-
-                count2++;
+                count++;
             });
         }).then(() => {
-            if (count2 == 0) {
+            if (count == 0) {
                 var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
                 var roomHash = hash.substring(1);
                 db.collection(selectedinterest).add({
@@ -190,7 +135,6 @@ function interestGroup(selectedinterest) {
                 })
             }
         });
-
     console.log("interestGroup()");
     return false;
 }
