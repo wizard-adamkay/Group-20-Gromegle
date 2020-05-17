@@ -148,29 +148,7 @@ function randomGroup() {
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
     console.log(selection);
-    switch (selection) {
-        case "cooking":
-            interestGroup("cooking_rooms");
-            break;
-        case "sports":
-            interestGroup("sports_rooms");
-            break;
-        case "videoGames":
-            interestGroup("game_rooms");
-            break;
-        case "studying":
-            interestGroup("study_rooms");
-            break;
-        case "movies":
-            interestGroup("movie_rooms");
-            break;
-        case "exercize":
-            interestGroup("exercise_rooms");
-            break;
-        default:
-            console.log("No interest match found");
-            interestGroup("rooms");
-    }
+    interestGroup(selection + "_rooms");
 }
 
 function interestGroup(selectedinterest) {
@@ -220,12 +198,10 @@ function interestGroup(selectedinterest) {
 function addFriend() {
     var provEmail = $("input[type=email][name=email]").val();
     var users = db.collection("users");
-    console.log("kk");
     users.where("email", "==", provEmail).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 let user = firebase.auth().currentUser;
-                
                 db.collection("users").doc(user.uid).update({
                     friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
                 });
