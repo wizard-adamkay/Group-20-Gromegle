@@ -39,10 +39,17 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 function addToList(friend, to, user) {
     let line = document.createElement('tr');
-    let userd = "<td scope='row'>" + friend + "</td>";
+    let pop = "<div class='popuptext'><button>join room</button></div>";
+    let userd = "<td class='popup' scope='row'>" + friend + pop + "</td>";
     let cross = "<td id='" + friend + "'class='close' scope='row'>X</td>";
     $(line).append(userd, cross);
     $(to).append(line);
+    $(".popup").click(function(event){
+        $(this).children("div").toggleClass("show");
+    });
+    $(".popup div").children("button").click(function(event){
+        console.log(friend);
+    });
     // deleting data
     let hold = document.getElementById(friend);
     $(hold).on('click', e => {
@@ -54,6 +61,9 @@ function addToList(friend, to, user) {
     });
 }
 
+function test(){
+    console.log(this);
+}
 $(":checkbox").click(function () {
     var id = $(this).attr('id');
     let user = firebase.auth().currentUser;
