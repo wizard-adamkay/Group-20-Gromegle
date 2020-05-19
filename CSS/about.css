@@ -1,0 +1,35 @@
+body{
+    font-size: 30px;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    max-width: 1200px;
+  }
+
+.card-body{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.description{
+    font-size: 30px;
+}
+h2{
+    color: white;
+}
+img{
+   max-width: 300px;
+   max-height: 300px;
+}
+.orange{
+    background-color: rgb(239, 165, 57);
+}
+
+section>div{
+    margin: 10px;
+    max-width: 1200px;
+}
+button{
+    padding: 10px;
+}

@@ -128,3 +128,11 @@ function addFriend() {
             console.log("Error getting documents: ", error);
         });
 }
+function signOut(){
+firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+    window.location.assign("../index.html");
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
+}

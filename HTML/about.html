@@ -7,17 +7,66 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
     <link rel="stylesheet" href="../CSS/about.css">
-    <link rel="shortcut icon" type="image/png" href="Images/GromegleFav.png">
+    <link rel="shortcut icon" type="image/png" href="../Images/GromegleFav.png">
     <title>Gromegle</title>
 </head>
     <body>
-        <!-- HTML section-->
-        <img src="images/GromegleFav.png" id="logo"><br><br>
-  
-    <div id="firebaseui-auth-container"></div>
-    <div id="loader">Loading...</div>
-
-    <br><a href="../index.html"><input type="button" value="About Gromegle" id="aboutButton"></a>
+        <a href="../index.html"><input type="button" value="Back" class="orange"></a>
+        <section>
+            <div class="orange">Data policy, and about Gromegle stuff
+            </div>
+            <div class="orange">
+                At Gromegle, we believe there's a better way to do networking. A more casual, fun way where people can
+                    meet up and make new friends during this epidemic. Our mission is to help others cope with lonelyness
+                    and distract from the ongoing quarentine.
+                
+            </div>
+        </section>
+        <section>
+            <h2 id="about">About Us</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Geoff</h4>
+                    </div>
+                    <div class="card-body, orange">
+                        <img class="team-member-photo card-img-bottom" src="../Images/Geoff.png" alt="Card image cap">
+                        <div class="description">Geoff is a BCIT student. blah blah blah</div>
+                    </div>
+                   
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Daniel Jin</h4>
+                    </div>
+                    <div class="card-body, orange">
+                        <img class="team-member-photo card-img-bottom" src="../Images/Daniel.png" alt="Card image cap">
+                        <div class="description">Daniel is a BCIT student. blah blah blah</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Jon S</h4>
+                    </div>
+                    <div class="card-body, orange">
+                        <img class="team-member-photo card-img-bottom" src="../Images/Jon.png" alt="Card image cap">
+                        <div class="description">Jonathan is a BCIT student. blah blah blah</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Adam Krawchuk</h4>
+                    </div>
+                    <div class="card-body, orange">
+                        <img class="team-member-photo card-img-bottom" src="../Images/Adam.png" alt="Card image cap">
+                        <div class="description">Adam is a BCIT student. blah blah blah</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            copyrights lmao
+        </footer>
         <!----------------------------------------------->
         <!-- JS: Boostrap, Firebase, API related    -->
         <!----------------------------------------------->
@@ -30,19 +79,5 @@
         <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-firestore.js"></script>
         <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
       
-        <!--------------------------------------------------------------------->
-        <!-- JS files: Your own JavaScript functions included here    -->
-        <!--------------------------------------------------------------------->
-        <script src="JS/login.js"></script>
-    
-         <!--------------------------------------------------------------------->
-        <!-- Make calls to your own JavaScript functions, here below-->
-        <!---------------------------------------------------------------------->
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    
-    
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-
     </body>
 </html>
