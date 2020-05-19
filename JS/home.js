@@ -37,29 +37,25 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 
 function addToList(from, to, user) {
+    i = 0;
     from.forEach(stored => {
-        let tr = document.createElement('tr');
-        tr.id = stored;
-        let info = document.createElement('td');
-        info.scope = 'row';
-        let cross = document.createElement('td');
-        cross.classList = ('close');
-        cross.scope = 'row';
-        info.textContent = stored;
-        cross.textContent = "X";
-        tr.appendChild(info);
-        tr.appendChild(cross);
-        $(to).append(tr);
+        let line = document.createElement('tr');
+        let userd = "<td scope='row'>" + stored + "</td>";
+        let cross = "<td id='ex"+ i + "'class='close' scope='row'>X</td>";
+        $(line).append(userd, cross);
+        $(to).append(line);
         // deleting data
-        cross.addEventListener('click', (e) => {
+        let hold = document.getElementById('ex'+i);
+        $(hold).on('click', e => {
             e.stopPropagation();
-            cross.parentElement.style = "display: none;";
-            let userRef = db.collection('users').doc(user.uid);
-            userRef.update({
+            $(hold).parent().css("display", "none");
+            db.collection('users').doc(user.uid).update({
                 friends: firebase.firestore.FieldValue.arrayRemove(stored)
             });
         });
+        i++;
     });
+    
 }
 
 $(":checkbox").click(function(){
@@ -78,21 +74,8 @@ $(":checkbox").click(function(){
     }
 });
 
-
-
-function showFriendsOption() {
-    document.getElementById("friendForm").style.display = "block";
-    return false;
-}
-
-function closeFriends() {
-    document.getElementById("friendForm").style.display = "none";
-    return false;
-}
-
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
-    console.log(selection);
     interestGroup(selection + "_rooms");
 }
 

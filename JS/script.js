@@ -4,59 +4,60 @@ console.log(roomHash);
 const drone = new ScaleDrone('BIZhUxYEmI9Hwh9I');
 const roomName = 'observable-' + roomHash;
 var firebaseConfig = {
-    apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
-    authDomain: "gromegle-38a5f.firebaseapp.com",
-    databaseURL: "https://gromegle-38a5f.firebaseio.com",
-    projectId: "gromegle-38a5f",
-    storageBucket: "gromegle-38a5f.appspot.com",
-    messagingSenderId: "850757928386",
-    appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
-    measurementId: "G-R6DWLFVZQY"
+  apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
+  authDomain: "gromegle-38a5f.firebaseapp.com",
+  databaseURL: "https://gromegle-38a5f.firebaseio.com",
+  projectId: "gromegle-38a5f",
+  storageBucket: "gromegle-38a5f.appspot.com",
+  messagingSenderId: "850757928386",
+  appId: "1:850757928386:web:e8c5f4b83b25abb6b6c25b",
+  measurementId: "G-R6DWLFVZQY"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const configuration = {
-  iceServers: [
-            {
-              url : 'stun:stun.l.google.com:19302'
-            },
-            {
-              url : 'stun:stun1.l.google.com:19302'
-            },
-            {
-              url : 'turn:turn.bistri.com:80',
-              credential: 'homeo',
-              username: 'homeo'
-            },
-            {
-              url : 'turn:turn.anyfirewall.com:443?transport=tcp',
-              credential: 'webrtc',
-              username: 'webrtc'
-            }
-        ]
+  iceServers: [{
+      url: 'stun:stun.l.google.com:19302'
+    },
+    {
+      url: 'stun:stun1.l.google.com:19302'
+    },
+    {
+      url: 'turn:turn.bistri.com:80',
+      credential: 'homeo',
+      username: 'homeo'
+    },
+    {
+      url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+      credential: 'webrtc',
+      username: 'webrtc'
+    }
+  ]
 };
 let room;
 let members;
 let pcs = [];
 let localStream;
 let finishedMedia = false;
+
 function onSuccess() {
   console.log("success");
 };
+
 function onError(error) {
   console.error(error);
 };
 //Gets the user video and audio streams
 navigator.mediaDevices.getUserMedia({
-    audio: true,
-    video: true,
-  }).then(stream => {
-    console.log(stream);
-    localStream = stream;
-    localVideo.srcObject = stream;
-    finishedMedia = true;
+  audio: true,
+  video: true,
+}).then(stream => {
+  console.log(stream);
+  localStream = stream;
+  localVideo.srcObject = stream;
+  finishedMedia = true;
 }, onError);
 drone.on('open', error => {
   if (error) {
@@ -84,19 +85,21 @@ drone.on('open', error => {
 //Promise function that waits for user media to finish completely.
 function waitForStreams() {
   if (finishedMedia == true) {
-      console.log("finished waiting for streams");
-      startWebRTC();
-   } else {
-     setTimeout(waitForStreams, 1000);
-   }
+    console.log("finished waiting for streams");
+    startWebRTC();
+  } else {
+    setTimeout(waitForStreams, 1000);
+  }
   console.log("heyo");
 }
 
 function createOffer(pc) {
   pc.onnegotiationneeded = () => {
-      console.log("sending offer");
-      setTimeout(function(){ pc.createOffer().then(event => localDescCreated(event, pc.id)).catch(onError); }, 500);
-    }
+    console.log("sending offer");
+    setTimeout(function () {
+      pc.createOffer().then(event => localDescCreated(event, pc.id)).catch(onError);
+    }, 500);
+  }
 }
 
 // Send signaling data via Scaledrone
@@ -112,16 +115,25 @@ function startWebRTC() {
   var i;
   for (i = 0; i < members.length; i++) {
     if (members[i].id !== drone.clientId) {
-      var newPc = {pc: new RTCPeerConnection(configuration), id: members[i].id};
+      var newPc = {
+        pc: new RTCPeerConnection(configuration),
+        id: members[i].id
+      };
       newPc.pc.onicecandidate = event => {
         console.log("sending candidate");
         if (event.candidate) {
           console.log(event.currentTarget.id);
-          setTimeout(function(){ sendMessage({'candidate': event.candidate, 'id': drone.clientId, 'target': event.currentTarget.id}); }, 1000);
+          setTimeout(function () {
+            sendMessage({
+              'candidate': event.candidate,
+              'id': drone.clientId,
+              'target': event.currentTarget.id
+            });
+          }, 1000);
         }
       };
       localStream.getTracks().forEach(track => {
-          newPc.pc.addTrack(track, localStream);
+        newPc.pc.addTrack(track, localStream);
       });
       newPc.pc.id = newPc.id;
       createOffer(newPc.pc);
@@ -133,31 +145,31 @@ function startWebRTC() {
 
   function setOnTrack(pc) {
     pc.ontrack = event => {
-        var id = event.currentTarget.id;
-        var stream = event.streams[0];
-        console.log(remoteVideo);
-        console.log(id);
-        if (remoteVideo.attribute != id && remoteVideo1.attribute != id && remoteVideo2.attribute != id) {
-          if (!(remoteVideo.srcObject || remoteVideo.attribute === id)) {
-            remoteVideo.srcObject = stream;
-            remoteVideo.attribute = id;
-            console.log("adding to remoteVideo");
-          } else if (!(remoteVideo1.srcObject || remoteVideo1.attribute === id)) {
-            remoteVideo1.srcObject = stream;  
-            remoteVideo1.attribute = id;
-            console.log("adding to remoteVideo1");
-          } else if (!(remoteVideo2.srcObject || remoteVideo2.attribute === id)) {
-            remoteVideo2.srcObject = stream;
-            remoteVideo2.attribute = id;
-            console.log("adding to remoteVideo2");
-          }
+      var id = event.currentTarget.id;
+      var stream = event.streams[0];
+      console.log(remoteVideo);
+      console.log(id);
+      if (remoteVideo.attribute != id && remoteVideo1.attribute != id && remoteVideo2.attribute != id) {
+        if (!(remoteVideo.srcObject || remoteVideo.attribute === id)) {
+          remoteVideo.srcObject = stream;
+          remoteVideo.attribute = id;
+          console.log("adding to remoteVideo");
+        } else if (!(remoteVideo1.srcObject || remoteVideo1.attribute === id)) {
+          remoteVideo1.srcObject = stream;
+          remoteVideo1.attribute = id;
+          console.log("adding to remoteVideo1");
+        } else if (!(remoteVideo2.srcObject || remoteVideo2.attribute === id)) {
+          remoteVideo2.srcObject = stream;
+          remoteVideo2.attribute = id;
+          console.log("adding to remoteVideo2");
         }
-      };
+      }
+    };
   }
 
   // Listen to signaling data from Scaledrone
   room.on('data', (message, client) => {
-    
+
     // Message was sent by us
     if (client.id === drone.clientId) {
       return;
@@ -175,12 +187,21 @@ function startWebRTC() {
       }
       if (n == -1) {
         console.log("creating new pcs");
-        var newPc = {pc: new RTCPeerConnection(configuration), id: client.id};
+        var newPc = {
+          pc: new RTCPeerConnection(configuration),
+          id: client.id
+        };
         newPc.pc.onicecandidate = event => {
           console.log("sending candidate");
           if (event.candidate) {
             console.log(event.currentTarget.id);
-            setTimeout(function(){ sendMessage({'candidate': event.candidate, 'id': drone.clientId, 'target': event.currentTarget.id}); }, 1000);
+            setTimeout(function () {
+              sendMessage({
+                'candidate': event.candidate,
+                'id': drone.clientId,
+                'target': event.currentTarget.id
+              });
+            }, 1000);
           }
         };
         localStream.getTracks().forEach(track => {
@@ -195,18 +216,19 @@ function startWebRTC() {
       }
       // This is called after receiving an offer or answer from another peer
       if (message.target === drone.clientId) {
-      pcs[n].pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
-        // When receiving an offer lets answer it
-        if (pcs[n].pc.remoteDescription.type === 'offer') {
-            setTimeout(function(){ pcs[n].pc.createAnswer().then(event => {
-              localDescCreated(event, client.id);
-            console.log("making a new connection from offer");
-            }).catch(onError);}, 500);
+        pcs[n].pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+          // When receiving an offer lets answer it
+          if (pcs[n].pc.remoteDescription.type === 'offer') {
+            setTimeout(function () {
+              pcs[n].pc.createAnswer().then(event => {
+                localDescCreated(event, client.id);
+                console.log("making a new connection from offer");
+              }).catch(onError);
+            }, 500);
             console.log("sending answer");
           }
-        }
-      , onError);
-        }
+        }, onError);
+      }
       //message.candidate implies an ICE candidate being sent
     } else if (message.candidate) {
       if (message.target === drone.clientId) {
@@ -228,45 +250,45 @@ function startWebRTC() {
     } else if (message.text) {
       console.log(message.text);
       insertMessageToDOM(JSON.stringify(message.text), message.id, false)
-      
+
     }
   });
-  
+
   room.on('member_leave', member => {
     console.log(roomHash);
     db.collection("rooms").where("hash", "==", roomHash)
-    .get()
-    .then(function (querySnapshot) {
+      .get()
+      .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-            const data = doc.data();
+          const data = doc.data();
           console.log(members.length);
-            db.collection("rooms").doc(doc.id).update({
-                "memberCount": members.length
-            });
+          db.collection("rooms").doc(doc.id).update({
+            "memberCount": members.length
+          });
 
         });
-    });
+      });
     for (i = 0; i < pcs.length; i++) {
-        console.log(pcs[i].id);
-        if (pcs[i].id === member.id) {
-          pcs.splice(i, 1);
-          if (remoteVideo.attribute === member.id) {
-            remoteVideo.srcObject = null;
-            remoteVideo.attribute = "";
-          }
-          if (remoteVideo1.attribute === member.id) {
-            remoteVideo1.srcObject = null;
-            remoteVideo1.attribute = "";
-          }
-          if (remoteVideo2.attribute === member.id) {
-            remoteVideo2.srcObject = null;
-            remoteVideo2.attribute = "";
-          }
-          break;
+      console.log(pcs[i].id);
+      if (pcs[i].id === member.id) {
+        pcs.splice(i, 1);
+        if (remoteVideo.attribute === member.id) {
+          remoteVideo.srcObject = null;
+          remoteVideo.attribute = "";
         }
+        if (remoteVideo1.attribute === member.id) {
+          remoteVideo1.srcObject = null;
+          remoteVideo1.attribute = "";
+        }
+        if (remoteVideo2.attribute === member.id) {
+          remoteVideo2.srcObject = null;
+          remoteVideo2.attribute = "";
+        }
+        break;
       }
+    }
   });
-  
+
 }
 
 function insertMessageToDOM(text, id, isFromMe) {
@@ -295,14 +317,17 @@ form.addEventListener('submit', () => {
     name,
     content: value,
   };
-  sendMessage({'text': value, 'id': drone.clientId});
+  sendMessage({
+    'text': value,
+    'id': drone.clientId
+  });
 
   insertMessageToDOM(value, drone.clientId, true);
 });
 //Updates the local description for a PC sdp
 function localDescCreated(desc, id) {
   var n = -1;
-  
+
   for (i = 0; i < pcs.length; i++) {
     if (pcs[i].id === id) {
       n = i;
@@ -313,56 +338,23 @@ function localDescCreated(desc, id) {
   console.log("setting local description for " + id + ' ' + pcs[n].pc.localDescription);
   pcs[n].pc.setLocalDescription(
     desc,
-    () => sendMessage({'sdp': pcs[n].pc.localDescription, 'target': id}),
+    () => sendMessage({
+      'sdp': pcs[n].pc.localDescription,
+      'target': id
+    }),
     onError
   );
-  
+
 }
-//this is a rewrite of the functions toggling the overlays for the videos.
-let count1 = 0;
-let count2 = 0;
-let count3 = 0;
-let count4 = 0;
-//these two functions toggle on and off overlay1
-function overlay1on(){
-  count1+= 1;
-  if (count1 > 5){
-    document.getElementById("overlay1").style.display= "block";
+
+$(".screencontainer").click(function () {
+  var count = $(this).data().count++;
+  if (count >= 5){
+    let emoji = $(this).children('span');
+    $(emoji).toggle();
   }
-}
-function overlay1off(){
-    document.getElementById("overlay1").style.display= "none";
-}
-//these two functions toggle on and off overlay2
-function overlay2on(){
-  count2+= 1;
-  if (count2 > 5){
-    document.getElementById("overlay2").style.display= "block";
-  }
-}
-function overlay2off(){
-    document.getElementById("overlay2").style.display= "none";
-}
-//these two functions toggle on and off overlay3
-function overlay3on(){
-  count3+= 1;
-  if (count3 > 5){
-    document.getElementById("overlay3").style.display= "block";
-  }
-}
-function overlay3off(){
-    document.getElementById("overlay3").style.display= "none";
-}
-//these two functions toggle on and off overlay4
-function overlay4on(){
-  count4+= 1;
-  if (count4 > 5){
-    document.getElementById("overlay4").style.display= "block";
-  }
-}
-function overlay4off(){
-    document.getElementById("overlay4").style.display= "none";
-}
+});
+
 function showPcs() {
   var b;
   for (b = 0; b < pcs.length; b++) {
@@ -376,75 +368,46 @@ function showPcs() {
 
 var storageRef = db.collection("users");
 var emojiArray;
- 
-firebase.auth().onAuthStateChanged(function(user) {
 
-if (user) {
-  // User is signed in.
-  console.log("User is signed in");
-  let userid = user.uid;
-storageRef.doc(userid).get().then(function(doc) {
-  emojiArray = doc.data().emojis;
-})
-} else {
-  // No user is signed in.
-  console.log("User is not signed in");
-}
+firebase.auth().onAuthStateChanged(function (user) {
+
+  if (user) {
+    // User is signed in.
+    console.log("User is signed in");
+    storageRef.doc(user.uid).get().then(function (doc) {
+      emojiArray = doc.data().emojis;
+    })
+    generateEmojis();
+  } else {
+    // No user is signed in.
+    console.log("User is not signed in");
+  }
 })
 // Place emojis onto dropdown list
 function generateEmojis() {
   console.log(emojiArray);
-  for(let i = 0; i < emojiArray.length; i++) {
+  for (let i = 0; i < emojiArray.length; i++) {
     var currentsource = emojiArray[i];
-          console.log(currentsource);
-          let currentemoji = document.createElement("img");
-          currentemoji.src = currentsource;
-          currentemoji.className = "dropdown-item";
-          currentemoji.onclick = function() {
-            db.collection("reactions").doc("reactionsrcs").set({
-              imagetodisplay: this.src
-            })
-          }
-          
+    console.log(currentsource);
+    let currentemoji = document.createElement("img");
+    currentemoji.src = currentsource;
+    currentemoji.className = "dropdown-item";
+    currentemoji.onclick = function () {
+      db.collection("reactions").doc("reactionsrcs").set({
+        imagetodisplay: this.src
+      })
+    }
+
     let target = document.getElementById("emojidisplay");
     target.appendChild(currentemoji);
   }
 }
 setTimeout(generateEmojis, 1000);
 
-db.collection("reactions").doc("reactionsrcs").onSnapshot(function(doc) {
-  
-  let container1 = document.getElementById("emojicontainer1");
-  let container2 = document.getElementById("emojicontainer2");
-  let container3 = document.getElementById("emojicontainer3");
-  let container4 = document.getElementById("emojicontainer4");
-  // Set sources.
-  let newsrc = doc.data().imagetodisplay;
-  console.log(newsrc);
-  container1.src = newsrc;
-  container2.src = newsrc;
-  container3.src = newsrc;
-  container4.src = newsrc;
-  // Set viewability and timeline.
-  let viewemoji1 = document.getElementById("showemoji1")
-  viewemoji1.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji1.style.display = 'none';
-}, 2000);
-  let viewemoji2 = document.getElementById("showemoji2")
-  viewemoji2.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji2.style.display = 'none';
-}, 2000);
-  let viewemoji3 = document.getElementById("showemoji3")
-  viewemoji3.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji3.style.display = 'none';
-}, 2000);
-  let viewemoji4 = document.getElementById("showemoji4")
-  viewemoji4.style.display = 'inline';
-  setTimeout(function() {
-  viewemoji4.style.display = 'none';
-}, 2000);
-
+db.collection("reactions").doc("reactionsrcs").onSnapshot(function (doc) {
+  $(".emojicontainer").attr("src", doc.data().imagetodisplay);
+  $(".showemoji").toggle();
+  setTimeout(() => {
+    $(".showemoji").toggle()
+  }, 2000);
 })

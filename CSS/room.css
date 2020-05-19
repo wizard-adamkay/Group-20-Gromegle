@@ -60,23 +60,20 @@ body {
 .grid-container{
   float: left;
   display: grid;
-  grid-template-columns: 2;
-  grid-template-rows: 2;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
   width: 80vw;
   height: auto;
   height: 85vh;
   top: 15vh;
   position: absolute;
 }
-/*screencontainer1, overlay1, and localVideo, are one grid group.*/
-#screencontainer1{
+.screencontainer{
   position: relative;
-  grid-column: 1;
-  grid-row: 1;
   display: flex;
   align-items: center;
 }
-#overlay1{
+.overlay{
   display: none;
   position:absolute;
 	top: -12%;
@@ -84,9 +81,8 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 2;
-	background: transparent url(../images/partyhat.png) no-repeat;
 }
-#name1{
+.name{
 	width: 20%;
 	height: auto;
   z-index: 3;
@@ -97,78 +93,6 @@ body {
   left: 15%;
   bottom: -5%;
   background-color: rgba(207, 145, 51, 0.7);
-}
-/*screencontainer2, overlay2, and remoteVideo, are one grid group.*/
-#screencontainer2{
-  position: relative;
-  grid-column: 2;
-  grid-row: 1;
-}
-#overlay2{
-  display: none;
-  position:absolute;
-	top: -12%;
-	left: 20%;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	background: transparent url(../images/thoughtbubble.png) no-repeat;
-}
-#name2{
-	width: 20%;
-	height: auto;
-  z-index: 3;
-  color: black;
-  font-size: 20;
-  text-align: center;
-  position: absolute;
-  left: 15%;
-  bottom: -5%;
-  background-color: rgba(207, 145, 51, 0.7);
-}
-/*screencontainer3, overlay3, and remoteVideo1, are one grid group.*/
-#screencontainer3{
-  position: relative;
-  grid-column: 1;
-  grid-row: 2;
-}
-#overlay3{
-  display: none;
-  position:absolute;
-	top: -12%;
-	left: 20%;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	background: transparent url(../images/thundercloud.png) no-repeat;
-}
-#name3{
-	width: 20%;
-	height: auto;
-  z-index: 3;
-  color: black;
-  font-size: 20;
-  text-align: center;
-  position: absolute;
-  left: 15%;
-  bottom: -5%;
-  background-color: rgba(207, 145, 51, 0.7);
-}
-/*screencontainer4, overlay4, and remoteVideo2, are one grid group.*/
-#screencontainer4{
-  position: relative;
-  grid-column: 2;
-  grid-row: 2;
-}
-#overlay4{
-  display: none;
-  position:absolute;
-	top: -12%;
-	left: 20%;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	background: transparent url(../images/vikinghelmet.png) no-repeat;
 }
 #emojidisplay {
   display: grid;
@@ -178,7 +102,7 @@ body {
   width: 10px;
   height: 10px;
 }
-#showemoji1 {
+.showemoji {
   display: none;
   position:absolute;
 	top: -50px;
@@ -186,45 +110,6 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 4;
-}
-#showemoji2 {
-  display: none;
-  position:absolute;
-	top: -50px;
-	left: 125px;
-	width: 100%;
-	height: 100%;
-	z-index: 4;
-}
-#showemoji3 {
-  display: none;
-  position:absolute;
-	top: -50px;
-	left: 125px;
-	width: 100%;
-	height: 100%;
-	z-index: 4;
-}
-#showemoji4 {
-  display: none;
-  position:absolute;
-	top: -50px;
-	left: 125px;
-	width: 100%;
-	height: 100%;
-  z-index: 4;
-}
-#name4 {
-	width: 20%;
-	height: auto;
-  z-index: 3;
-  color: black;
-  font-size: 20;
-  text-align: center;
-  position: absolute;
-  left: 15%;
-  bottom: -5%;
-  background-color: rgba(207, 145, 51, 0.7);
 }
 .messageBox {
     float: right;
