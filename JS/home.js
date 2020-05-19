@@ -111,6 +111,7 @@ function interestGroup(selectedinterest) {
 }
 
 function addFriend() {
+    $("#friendForm").toggle();
     var provEmail = $("input[type=email][name=email]").val();
     var users = db.collection("users");
     users.where("email", "==", provEmail).get()

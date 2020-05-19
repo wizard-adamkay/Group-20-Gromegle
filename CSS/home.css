@@ -44,10 +44,10 @@ h1{
     font-size: 40pt;
 }
 .plus{
-    max-width: 10%;
-    min-height: 10%;
+    max-width: 50%;
     border-radius: 50%;
     float: right;
+    font-weight: bolder;
 }
 .team-member-photo{
     display: block;
