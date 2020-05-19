@@ -23,11 +23,10 @@ firebase.auth().onAuthStateChanged(function (user) {
         docRef.get().then(function (doc) {
             if (doc && doc.exists) {
                 const myData = doc.data();
-                const friends = myData.friends;
                 currentuserinterests = myData.interests;
-                addToList(friends, "#friendTable", user);
-                currentuserinterests.forEach(interest=>{
-                    let chk = document.getElementById(interest).checked = true;
+                addToList(myData.friends, "#friendTable", user);
+                currentuserinterests.forEach(interest => {
+                    document.getElementById(interest).checked = true;
                 })
             }
         }).catch(function (error) {
@@ -41,11 +40,11 @@ function addToList(from, to, user) {
     from.forEach(stored => {
         let line = document.createElement('tr');
         let userd = "<td scope='row'>" + stored + "</td>";
-        let cross = "<td id='ex"+ i + "'class='close' scope='row'>X</td>";
+        let cross = "<td id='ex" + i + "'class='close' scope='row'>X</td>";
         $(line).append(userd, cross);
         $(to).append(line);
         // deleting data
-        let hold = document.getElementById('ex'+i);
+        let hold = document.getElementById('ex' + i);
         $(hold).on('click', e => {
             e.stopPropagation();
             $(hold).parent().css("display", "none");
@@ -55,18 +54,18 @@ function addToList(from, to, user) {
         });
         i++;
     });
-    
+
 }
 
-$(":checkbox").click(function(){
+$(":checkbox").click(function () {
     var id = $(this).attr('id');
     let user = firebase.auth().currentUser;
-    if(this.checked){
+    if (this.checked) {
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayUnion(id)
         });
         currentuserinterests.push(this.id);
-    } else{
+    } else {
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayRemove(id)
         });
@@ -82,43 +81,35 @@ function callInterestGroup() {
 function interestGroup(selectedinterest) {
     selectedinterest = selectedinterest || "rooms";
     let count = 0;
-    db.collection(selectedinterest).where("memberCount", "<", 4)
-        .get()
+    db.collection(selectedinterest).where("memberCount", "<", 4).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
+                count++;
                 const data = doc.data();
                 db.collection(selectedinterest).doc(doc.id).update({
                     "memberCount": data.memberCount + 1
                 }).then(() => {
                     window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                });
-                console.log(data);
-                count++;
-            });
-        }).then(() => {
-            if (count == 0) {
-                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-                var roomHash = hash.substring(1);
-                db.collection(selectedinterest).add({
-                    hash: roomHash,
-                    memberCount: 1,
-                }).then(function (docRef) {
-                    console.log(docRef);
-                    docRef.get().then(function (doc) {
-                        if (doc.exists) {
-                            const data = doc.data();
-                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
                 })
+            });
+            if(count !== 0){
+                return false;
             }
+            var roomHash = Math.floor(Math.random() * 0xFFFFFF).toString(16).substring(1);
+            db.collection(selectedinterest).add({
+                hash: roomHash,
+                memberCount: 1,
+            }).then(function (docRef) {
+                docRef.get().then(function (doc) {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                    }
+                }).catch(function (error) {
+                    console.log("Error getting document:", error);
+                });
+            })
         });
-    console.log("interestGroup()");
     return false;
 }
 

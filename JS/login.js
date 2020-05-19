@@ -46,31 +46,32 @@ let uiConfig = {
             user = authResult.user;
             userpath = db.collection("users").doc(user.uid)
             if (authResult.additionalUserInfo.isNewUser) {
-                    userpath.set({
-                        friendid: user.uid,
-                        name: user.displayName,
-                        email: user.email,
-                        reportcount: 0,
-                        bio: "Empty",
-                        pfplink: "Empty",
-                        interests: [],
-                        friends: [],
-                        emojis: ["https://i.imgur.com/QhkFO3J.png",
-                                "https://i.imgur.com/h4kBtuV.png",
-                                "https://i.imgur.com/U59pzb0.png",
-                                "https://i.imgur.com/070RCR6.png",
-                                "https://i.imgur.com/4EJW8g3.png",
-                                "https://i.imgur.com/f0Ny289.png",
-                                "https://i.imgur.com/qIOg0TY.png",
-                                "https://i.imgur.com/9IE3hgj.png",
-                                "https://i.imgur.com/3DRphFT.png",
-                                "https://i.imgur.com/53goBP7.png",
-                                "https://i.imgur.com/zgtGRcx.png",
-                                "https://i.imgur.com/tQnpLPr.png"]  
-                    }).then(function () {
-                        console.log("New user added to firestore");
-                        window.location.assign("HTML/home.html");
-                    })
+                userpath.set({
+                    friendid: user.uid,
+                    name: user.displayName,
+                    email: user.email,
+                    reportcount: 0,
+                    bio: "Empty",
+                    pfplink: "Empty",
+                    interests: [],
+                    friends: [],
+                    emojis: ["https://i.imgur.com/QhkFO3J.png",
+                        "https://i.imgur.com/h4kBtuV.png",
+                        "https://i.imgur.com/U59pzb0.png",
+                        "https://i.imgur.com/070RCR6.png",
+                        "https://i.imgur.com/4EJW8g3.png",
+                        "https://i.imgur.com/f0Ny289.png",
+                        "https://i.imgur.com/qIOg0TY.png",
+                        "https://i.imgur.com/9IE3hgj.png",
+                        "https://i.imgur.com/3DRphFT.png",
+                        "https://i.imgur.com/53goBP7.png",
+                        "https://i.imgur.com/zgtGRcx.png",
+                        "https://i.imgur.com/tQnpLPr.png"
+                    ]
+                }).then(function () {
+                    console.log("New user added to firestore");
+                    window.location.assign("HTML/home.html");
+                })
             } else {
                 return true;
             }

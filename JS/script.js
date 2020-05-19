@@ -260,7 +260,6 @@ function startWebRTC() {
       .get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
-          const data = doc.data();
           console.log(members.length);
           db.collection("rooms").doc(doc.id).update({
             "memberCount": members.length
@@ -376,8 +375,9 @@ firebase.auth().onAuthStateChanged(function (user) {
     console.log("User is signed in");
     storageRef.doc(user.uid).get().then(function (doc) {
       emojiArray = doc.data().emojis;
+      generateEmojis();
     })
-    generateEmojis();
+    
   } else {
     // No user is signed in.
     console.log("User is not signed in");
@@ -402,7 +402,6 @@ function generateEmojis() {
     target.appendChild(currentemoji);
   }
 }
-setTimeout(generateEmojis, 1000);
 
 db.collection("reactions").doc("reactionsrcs").onSnapshot(function (doc) {
   $(".emojicontainer").attr("src", doc.data().imagetodisplay);
