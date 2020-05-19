@@ -24,7 +24,9 @@ firebase.auth().onAuthStateChanged(function (user) {
             if (doc && doc.exists) {
                 const myData = doc.data();
                 currentuserinterests = myData.interests;
-                addToList(myData.friends, "#friendTable", user);
+                myData.friends.forEach(friend => {
+                    addToList(friend, "#friendTable", user);
+                });
                 currentuserinterests.forEach(interest => {
                     document.getElementById(interest).checked = true;
                 })
@@ -35,26 +37,21 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 
-function addToList(from, to, user) {
-    i = 0;
-    from.forEach(stored => {
-        let line = document.createElement('tr');
-        let userd = "<td scope='row'>" + stored + "</td>";
-        let cross = "<td id='ex" + i + "'class='close' scope='row'>X</td>";
-        $(line).append(userd, cross);
-        $(to).append(line);
-        // deleting data
-        let hold = document.getElementById('ex' + i);
-        $(hold).on('click', e => {
-            e.stopPropagation();
-            $(hold).parent().css("display", "none");
-            db.collection('users').doc(user.uid).update({
-                friends: firebase.firestore.FieldValue.arrayRemove(stored)
-            });
+function addToList(friend, to, user) {
+    let line = document.createElement('tr');
+    let userd = "<td scope='row'>" + friend + "</td>";
+    let cross = "<td id='" + friend + "'class='close' scope='row'>X</td>";
+    $(line).append(userd, cross);
+    $(to).append(line);
+    // deleting data
+    let hold = document.getElementById(friend);
+    $(hold).on('click', e => {
+        e.stopPropagation();
+        $(hold).parent().css("display", "none");
+        db.collection('users').doc(user.uid).update({
+            friends: firebase.firestore.FieldValue.arrayRemove(friend)
         });
-        i++;
     });
-
 }
 
 $(":checkbox").click(function () {
@@ -75,7 +72,7 @@ $(":checkbox").click(function () {
 
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
-    interestGroup(selection + "_rooms");
+    interestGroup(selection + "rooms");
 }
 
 function interestGroup(selectedinterest) {
@@ -92,7 +89,7 @@ function interestGroup(selectedinterest) {
                     window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
                 })
             });
-            if(count !== 0){
+            if (count !== 0) {
                 return false;
             }
             var roomHash = Math.floor(Math.random() * 0xFFFFFF).toString(16).substring(1);
@@ -123,10 +120,10 @@ function addFriend() {
                 db.collection("users").doc(user.uid).update({
                     friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
                 });
+                addToList(doc.data().email, "#friendTable", user);
             });
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-    setTimeout("location.reload(true);", 1000);
 }
