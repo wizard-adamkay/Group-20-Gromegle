@@ -61,9 +61,7 @@ function addToList(friend, to, user) {
     });
 }
 
-function test(){
-    console.log(this);
-}
+
 $(":checkbox").click(function () {
     var id = $(this).attr('id');
     let user = firebase.auth().currentUser;
