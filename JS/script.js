@@ -41,6 +41,8 @@ let members;
 let pcs = [];
 let localStream;
 let finishedMedia = false;
+let finishedAuth = false;
+let name = "";
 
 function onSuccess() {
   console.log("success");
@@ -84,7 +86,7 @@ drone.on('open', error => {
 
 //Promise function that waits for user media to finish completely.
 function waitForStreams() {
-  if (finishedMedia == true) {
+  if (finishedMedia == true && finishedAuth == true) {
     console.log("finished waiting for streams");
     startWebRTC();
   } else {
@@ -169,7 +171,6 @@ function startWebRTC() {
 
   // Listen to signaling data from Scaledrone
   room.on('data', (message, client) => {
-
     // Message was sent by us
     if (client.id === drone.clientId) {
       return;
@@ -243,17 +244,49 @@ function startWebRTC() {
           }
         }
         console.log(JSON.stringify(pcs[n]));
+        setTimeout(() => {
+          sendMessage({
+          'name': name,
+          'id': drone.clientId,
+          'target': pcs[n].id
+        });
+        }, 1500);
+        
         // Add the new ICE candidate to our connections remote description
         pcs[n].pc.addIceCandidate(
           new RTCIceCandidate(message.candidate), onSuccess, onError);
       }
     } else if (message.text) {
-      console.log(message.text);
-      insertMessageToDOM(JSON.stringify(message.text), message.id, false)
-
+      insertMessageToDOM(String(message.text), String(message.author), message.id, false)
+    } else if (message.name) {
+      if (message.target === drone.clientId) {
+        setName(String(message.name), message.id);
+      }
     }
   });
+  
+    
+  function setName(text, id) {
+    for (i = 0; i < pcs.length; i++) {
+      console.log(pcs[i].id);
+      console.log(id);
+      if (pcs[i].id === id) {
+        console.log("somethin should be happening");
+        if (remoteVideo.attribute === id) {
+          name2.innerHTML = text;
+        }
+        if (remoteVideo1.attribute === id) {
+          name3.innerHTML = text;
+        }
+        if (remoteVideo2.attribute === id) {
+          name4.innerHTML = text;
+        }
+        break;
+      }
+    }
+  }
 
+  
   room.on('member_leave', member => {
     console.log(roomHash);
     db.collection("rooms").where("hash", "==", roomHash)
@@ -274,26 +307,28 @@ function startWebRTC() {
         if (remoteVideo.attribute === member.id) {
           remoteVideo.srcObject = null;
           remoteVideo.attribute = "";
+          name2.innerHTML = "Name2";
         }
         if (remoteVideo1.attribute === member.id) {
           remoteVideo1.srcObject = null;
           remoteVideo1.attribute = "";
+          name3.innerHTML = "Name3";
         }
         if (remoteVideo2.attribute === member.id) {
           remoteVideo2.srcObject = null;
           remoteVideo2.attribute = "";
+          name4.innerHTML = "Name4";
         }
         break;
       }
     }
   });
-
 }
 
-function insertMessageToDOM(text, id, isFromMe) {
+function insertMessageToDOM(text, author, id, isFromMe) {
   const template = document.querySelector('template[data-template="message"]');
   const nameEl = template.content.querySelector('.message__name');
-  template.content.querySelector('.message__bubble').innerText = text;
+  template.content.querySelector('.message__bubble').innerHTML = text + '<br><i style="font-size: 0.75em" >' + author + '</i>';
   const clone = document.importNode(template.content, true);
   const messageEl = clone.querySelector('.message');
   if (isFromMe) {
@@ -318,10 +353,11 @@ form.addEventListener('submit', () => {
   };
   sendMessage({
     'text': value,
+    'author': name,
     'id': drone.clientId
   });
 
-  insertMessageToDOM(value, drone.clientId, true);
+  insertMessageToDOM(value, name, drone.clientId, true);
 });
 //Updates the local description for a PC sdp
 function localDescCreated(desc, id) {
@@ -367,7 +403,6 @@ function showPcs() {
 
 var storageRef = db.collection("users");
 var emojiArray;
-
 firebase.auth().onAuthStateChanged(function (user) {
 
   if (user) {
@@ -375,6 +410,10 @@ firebase.auth().onAuthStateChanged(function (user) {
     console.log("User is signed in");
     storageRef.doc(user.uid).get().then(function (doc) {
       emojiArray = doc.data().emojis;
+      name = doc.data().name;
+      name1.innerHTML = name;
+      console.log(name);
+      finishedAuth = true;
       generateEmojis();
     })
     
