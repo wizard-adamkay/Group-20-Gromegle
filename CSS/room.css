@@ -2,31 +2,35 @@
 We need to reformat everything for a mobile and tablet version.*/
 
 body {
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-  video {
-      width: 40vw;
-      height: 40vh;
-      box-sizing: border-box;
-      border-radius: 2px;
-      padding: 0;
-      box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
-    }
-  .copy {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 16px;
-    color: rgba(0, 0, 0, 0.5);
-  }
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+video {
+  width: 35vw;
+  height: 40vh;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 0;
+  box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+}
+
+.copy {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
 #topbar {
   height: 15vh;
 }
-#backButton{
+
+#backButton {
   border: black;
   border-style: solid;
   background-color: rgb(239, 165, 57);
@@ -37,17 +41,19 @@ body {
   left: 5%;
   padding: 10px;
 }
-#pageName{
+
+#pageName {
   color: rgb(207, 145, 51);
   font-size: 30;
   text-align: center;
   height: 10%;
   width: 40%;
   top: 5%;
-  left: 30%; 
+  left: 30%;
   position: absolute;
 }
-#roomCategory{
+
+#roomCategory {
   color: rgb(207, 145, 51);
   font-size: 20;
   text-align: center;
@@ -56,35 +62,54 @@ body {
   left: 30%;
   position: absolute;
 }
+
 /*puts the video and overlay containers on a grid.*/
-.grid-container{
+.grid-container {
   float: left;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  width: 90%;
+  top: 10%;
+  position: absolute;
+  height: 85%;
+}
+
+#videocontainer {
+  grid-column: 1;
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 50% 50%;
-  width: 80vw;
-  height: auto;
-  height: 85vh;
-  top: 15vh;
-  position: absolute;
+  grid-gap: 2%;
 }
-.screencontainer{
+
+.screencontainer {
   position: relative;
   display: flex;
   align-items: center;
 }
-.overlay{
-  display: none;
-  position:absolute;
-	top: -12%;
-	left: 43%;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
+
+#chatbox {
+  position: absolute;
+  grid-column: 2;
+  width: 100%;
+  height: 85vh;
+  top: 0;
+  max-width: 25vw;
 }
-.name{
-	width: 20%;
-	height: auto;
+
+.overlay {
+  display: none;
+  position: absolute;
+  top: -5%;
+  left: 45%;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.name {
+  width: 20%;
+  height: auto;
   z-index: 3;
   color: black;
   font-size: 20;
@@ -94,81 +119,166 @@ body {
   bottom: 0%;
   background-color: rgba(207, 145, 51, 0.7);
 }
+
 #emojidisplay {
   display: grid;
   grid-template-columns: auto auto auto;
 }
-#emojidisplay > img {
+
+#emojidisplay>img {
   width: 10vw;
   height: 11vh;
 }
+
 .showemoji {
   display: none;
-  position:absolute;
-	top: -50px;
-	left: 125px;
-	z-index: 4;
+  position: absolute;
+  top: -50px;
+  left: 125px;
+  z-index: 4;
 }
+
 .emojicontainer {
   width: 20vw;
   height: 30vh;
 }
+
 .messageBox {
-    float: right;
-    box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
-    border-radius: 3px;
-    height: 95vh;
-    width: 19vw;
-    display: flex;
-    flex-direction: column;
-  }
-  .messages {
-    flex-grow: 1;
-    padding: 20px 30px;
-    overflow: auto;
-  }
-  .message {
-    display: flex;
-    flex-direction: column;
-  }
-  .message--mine {
-    align-items: flex-end;
-  }
-  .message--theirs {
-    align-items: flex-start;
-  }
-  .message__name {
-    padding: 10px 0;
-  }
-  .message__bubble {
-    padding: 20px;
-    border-radius: 3px;
-  }
-  .message--theirs .message__bubble {
-    background: #6363bf;
-    color: white;
-  }
-  .message--mine .message__bubble {
-    background: rgba(156, 172, 172, 0.2);
-  }
-  .footer {
-    line-height: 76px;
-    border-top: 1px solid rgba(156, 172, 172, 0.2);
-    display: flex;
-    flex-shrink: 0;
-  }
-  input {
-    height: 76px;
-    border: none;
-    flex-grow: 1;
-    padding: 0 30px;
-    font-size: 16px;
-    background: transparent;
-  }
-  button {
-    border: none;
-    background: transparent;
-    padding: 0 30px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+  float: right;
+  box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+  border-radius: 3px;
+  height: 100%;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex-grow: 1;
+  padding: 20px 30px;
+  overflow: auto;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+}
+
+.message--mine {
+  align-items: flex-end;
+}
+
+.message--theirs {
+  align-items: flex-start;
+}
+
+.message__name {
+  padding: 10px 0;
+}
+
+.message__bubble {
+  padding: 20px;
+  border-radius: 3px;
+}
+
+.message--theirs .message__bubble {
+  background: #6363bf;
+  color: white;
+}
+
+.message--mine .message__bubble {
+  background: rgba(156, 172, 172, 0.2);
+}
+
+.footer {
+  line-height: 76px;
+  border-top: 1px solid rgba(156, 172, 172, 0.2);
+  display: flex;
+  flex-shrink: 0;
+}
+
+input {
+  height: 76px;
+  border: none;
+  flex-grow: 1;
+  padding: 0 30px;
+  font-size: 16px;
+  background: transparent;
+}
+
+button {
+  border: none;
+  background: transparent;
+  padding: 0 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dropdown{
+  left: 75%;
+  top: 0;
+}
+
+@media only screen (max-width: 400px) {}
+.grid-container {
+  float: center;
+  display: grid;
+  grid-template-rows: 50% 50%;
+  width: 90%;
+  top: 15%;
+  position: absolute;
+  height: 80%;
+  align-items: center;
+}
+
+#videocontainer {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  grid-gap: 2%;
+  width: 90vw;
+  margin: 5%;
+  height: 40vh;
+}
+
+.screencontainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 50vw;
+  height: 20vh;
+}
+
+#chatbox {
+  position: absolute;
+  grid-row: 2;
+  width: 90vw;
+  height: 40vh;
+  top: 0;
+  left: 5vw;
+}
+video {
+  width: 45vw;
+  height: 30vh;
+}
+
+.name{
+  display: none;
+}
+#backButton {
+  left: 0;
+  top: 0;
+  font-size: 1em;
+  max-width: 30%;
+  max-height: 7%;
+}
+@media only screen (min-width: 401px) and (max-width: 1024px) {}
+
+@media only screen (min-width: 1025px) {
+  #backButton {
+    top: 5%;
+    left: 5%;
+}
+} /*computer settings are the default*/

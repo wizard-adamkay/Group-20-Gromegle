@@ -246,12 +246,12 @@ function startWebRTC() {
         console.log(JSON.stringify(pcs[n]));
         setTimeout(() => {
           sendMessage({
-          'name': name,
-          'id': drone.clientId,
-          'target': pcs[n].id
-        });
+            'name': name,
+            'id': drone.clientId,
+            'target': pcs[n].id
+          });
         }, 1500);
-        
+
         // Add the new ICE candidate to our connections remote description
         pcs[n].pc.addIceCandidate(
           new RTCIceCandidate(message.candidate), onSuccess, onError);
@@ -264,8 +264,8 @@ function startWebRTC() {
       }
     }
   });
-  
-    
+
+
   function setName(text, id) {
     for (i = 0; i < pcs.length; i++) {
       console.log(pcs[i].id);
@@ -286,7 +286,7 @@ function startWebRTC() {
     }
   }
 
-  
+
   room.on('member_leave', member => {
     console.log(roomHash);
     db.collection("rooms").where("hash", "==", roomHash)
@@ -383,8 +383,8 @@ function localDescCreated(desc, id) {
 }
 
 $(".screencontainer").click(function () {
-  var count = $(this).data().count++;
-  if (count >= 5){
+  let count = $(this).data().count++;
+  if (count >= 5) {
     let emoji = $(this).children('span');
     $(emoji).toggle();
   }
@@ -416,7 +416,7 @@ firebase.auth().onAuthStateChanged(function (user) {
       finishedAuth = true;
       generateEmojis();
     })
-    
+
   } else {
     // No user is signed in.
     console.log("User is not signed in");
@@ -449,3 +449,26 @@ db.collection("reactions").doc("reactionsrcs").onSnapshot(function (doc) {
     $(".showemoji").toggle()
   }, 2000);
 })
+
+
+let tweet1;
+let val;
+document.getElementById("btn2").addEventListener("click", function1);
+
+function function1() {
+  val = document.getElementById("msgsrc").value;
+  val.replace(/\s/g, "%20");
+  console.log(val);
+  document.getElementById("tweeter").addEventListener("click", function2);
+}
+
+function function2() {
+  if (val.length < 280) {
+    tweet1 = "https://twitter.com/intent/tweet?text=" + val;
+    document.getElementById("h1").innerHTML = tweet1;
+    console.log(tweet1);
+    window.open(tweet1, "popup", "width = 600, height = 500");
+  } else {
+    window.alert("Message is too long to tweet!");
+  }
+}

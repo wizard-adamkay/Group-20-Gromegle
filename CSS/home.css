@@ -1,19 +1,8 @@
-@media (max-width: 400px){
-    
-    
-}
-@media (min-width: 401px) and (max-width: 1024px){
-    
-    
-}
-@media (min-width: 1025px){
-    
-    
-}
+
 button{
     color: black;
     background-color: rgb(239, 165, 57);
-    border: 2px solid yellow;
+    border: 2px solid rgb(85,85,85);
 }
 .container{
     display: flex;
@@ -26,7 +15,7 @@ button{
     box-shadow: 1px 2px 1px;
     border-collapse: collapse;
     margin-top: 5%;
-    max-width: 300px;
+    max-width: 350px;
     border-radius: 20% 0% ;
 }
 .chat{
@@ -44,10 +33,9 @@ h1{
     font-size: 40pt;
 }
 .plus{
-    max-width: 50%;
-    border-radius: 50%;
+    border-radius: 15px;
     float: right;
-    font-weight: bolder;
+    white-space: nowrap;
 }
 .team-member-photo{
     display: block;
@@ -105,7 +93,7 @@ p{
 .form-container {
   max-width: 300px;
   padding: 10px;
-  background-color: white;
+  background-color: rgb(239, 165, 57);
 }
 
 /* Full-width input fields */
