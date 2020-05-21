@@ -25,7 +25,12 @@ firebase.auth().onAuthStateChanged(function (user) {
                 const myData = doc.data();
                 currentuserinterests = myData.interests;
                 myData.friends.forEach(friend => {
-                    addToList(friend, "#friendTable", user);
+                  var friendRef = db.collection('users').doc(friend);
+                  friendRef.get().then(function(friendDoc) {
+                    var data = friendDoc.data();
+                    addToList(data.email, data.currentRoom, data.selectedInterest, "#friendTable", user);
+                  })
+                    
                 });
                 currentuserinterests.forEach(interest => {
                     document.getElementById(interest).checked = true;
@@ -37,9 +42,11 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 
-function addToList(friend, to, user) {
+function addToList(friend, roomHash, interest, to, user) {
+    console.log(roomHash);
+    console.log(friend);
     let line = document.createElement('tr');
-    let pop = "<div class='popuptext'><button>join room</button></div>";
+    let pop = '<div class="popuptext"><button>join room</button></div>';
     let userd = "<td class='popup' scope='row'>" + friend + pop + "</td>";
     let cross = "<td id='" + friend + "'class='close' scope='row'>X</td>";
     $(line).append(userd, cross);
@@ -48,7 +55,7 @@ function addToList(friend, to, user) {
         $(this).children("div").toggleClass("show");
     });
     $(".popup div").children("button").click(function(event){
-        console.log(friend);
+        findRoom(roomHash, interest);
     });
     // deleting data
     let hold = document.getElementById(friend);
@@ -83,9 +90,34 @@ function callInterestGroup() {
     interestGroup(selection + "rooms");
 }
 
+
+function findRoom(room, selectedinterest) {
+    let user = firebase.auth().currentUser;
+    console.log(room);
+    console.log(selectedinterest);
+    db.collection(selectedinterest).doc(room).get()
+      .then((doc) => {
+        const data = doc.data();
+        if (data.memberCount < 4) {
+          db.collection(selectedinterest).doc(room).update({
+                    "memberCount": data.memberCount + 1
+          }).then(() => {
+              db.collection("users").doc(user.uid).update({
+                  currentRoom: doc.id,
+                  selectedInterest: "rooms"
+              }).then(event => {
+                window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+              });
+          })
+        }
+    });
+    return false;
+}
+
 function interestGroup(selectedinterest) {
     selectedinterest = selectedinterest || "rooms";
     let count = 0;
+    let user = firebase.auth().currentUser;
     db.collection(selectedinterest).where("memberCount", "<", 4).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
@@ -94,7 +126,12 @@ function interestGroup(selectedinterest) {
                 db.collection(selectedinterest).doc(doc.id).update({
                     "memberCount": data.memberCount + 1
                 }).then(() => {
-                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                    db.collection("users").doc(user.uid).update({
+                        currentRoom: doc.id,
+                        selectedInterest: "rooms"
+                    }).then(event => {
+                      window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                    });
                 })
             });
             if (count !== 0) {
@@ -108,7 +145,12 @@ function interestGroup(selectedinterest) {
                 docRef.get().then(function (doc) {
                     if (doc.exists) {
                         const data = doc.data();
-                        window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        db.collection("users").doc(user.uid).update({
+                          currentRoom: doc.id,
+                          selectedInterest: selectedinterest
+                        }).then(event => {
+                          window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        });
                     }
                 }).catch(function (error) {
                     console.log("Error getting document:", error);
@@ -127,9 +169,9 @@ function addFriend() {
             querySnapshot.forEach(function (doc) {
                 let user = firebase.auth().currentUser;
                 db.collection("users").doc(user.uid).update({
-                    friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
+                    friends: firebase.firestore.FieldValue.arrayUnion(doc.data().friendid)
                 });
-                addToList(doc.data().email, "#friendTable", user);
+                addToList(doc.data().email, doc.data().currentRoom, doc.data().selectedInterest, "#friendTable", user);
             });
         })
         .catch(function (error) {
