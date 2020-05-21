@@ -441,8 +441,12 @@ function generateEmojis() {
     target.appendChild(currentemoji);
   }
 }
-
+let skip = true;
 db.collection("reactions").doc("reactionsrcs").onSnapshot(function (doc) {
+  if(skip){
+    skip = false;
+    return;
+  }
   $(".emojicontainer").attr("src", doc.data().imagetodisplay);
   $(".showemoji").toggle();
   setTimeout(() => {
