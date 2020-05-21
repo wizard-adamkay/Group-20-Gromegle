@@ -90,7 +90,7 @@ function callInterestGroup() {
     interestGroup(selection + "rooms");
 }
 
-
+//Finds a room that a specific user is in based on his last selected interest and room ID.
 function findRoom(room, selectedinterest) {
     let user = firebase.auth().currentUser;
     console.log(room);
