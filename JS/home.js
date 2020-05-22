@@ -42,6 +42,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 
+//This creates and adds friends to the list.
 function addToList(friend, id, roomHash, interest, to, user) {
     console.log(id);
     console.log(friend);
@@ -68,7 +69,7 @@ function addToList(friend, id, roomHash, interest, to, user) {
     });
 }
 
-
+//This function updates the interests list, and toggles their state of activity
 $(":checkbox").click(function () {
     var id = $(this).attr('id');
     let user = firebase.auth().currentUser;
@@ -85,6 +86,7 @@ $(":checkbox").click(function () {
     }
 });
 
+//creates interest group.
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
     interestGroup(selection + "rooms");
@@ -112,6 +114,7 @@ function findRoom(room, selectedinterest) {
     return false;
 }
 
+//This chooses rooms based on interests and available rooms.
 function interestGroup(selectedinterest) {
     selectedinterest = selectedinterest || "rooms";
     let count = 0;
@@ -158,6 +161,7 @@ function interestGroup(selectedinterest) {
     return false;
 }
 
+//Adds friends to the data.
 function addFriend() {
     $("#friendForm").toggle();
     var provEmail = $("input[type=email][name=email]").val();
@@ -176,6 +180,7 @@ function addFriend() {
             console.log("Error getting documents: ", error);
         });
 }
+//Signs the user out.
 function signOut(){
 firebase.auth().signOut().then(function() {
     console.log('Signed Out');

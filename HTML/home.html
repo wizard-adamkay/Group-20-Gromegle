@@ -23,6 +23,7 @@
 <input type="button" value="SignOut?" id="signOutBtn" onclick="signOut()">
  
     </nav>
+    <!--holds the buttons activating group chats.-->
     <div class="container">
         <div>
             <button type="button" onclick="interestGroup()" class="chat">Chat With a Random Group</button>
@@ -39,12 +40,14 @@
                     <th><button onclick='$("#friendForm").toggle()' type="button" class="plus open-button">Add Friend</button></th></th>
                 </tr>
             </thead>
+            <!--we generate the list of friends below in this table.-->
             <tbody id="friendTable">
             </tbody>
             <tfoot>
                 <tr>
                     <td></td>
                     <td>
+                        <!--This is the form for the user to add interests.-->
                         <div class="form-popup" id="friendForm">
                             <form class="form-container">
                                 <label for="email"><b>Add friend by email:</b></label>
@@ -64,6 +67,7 @@
                     <th></th>
                 </tr>
             </thead>
+            <!--we generate the list of toggleable interests below in this table.-->
             <tbody id="interestTable">
                 <tr>
                     <td>Cooking:<input type="checkbox" id="cooking"></td>

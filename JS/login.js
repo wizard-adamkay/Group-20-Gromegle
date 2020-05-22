@@ -1,4 +1,5 @@
-// Your web app's Firebase configuration
+// Note: this code is sourced from the Firebase javascript tutorials, with modifications.
+//Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
     authDomain: "gromegle-38a5f.firebaseapp.com",
@@ -45,6 +46,9 @@ let uiConfig = {
             //------------------------------------------------------------------------------------------
             user = authResult.user;
             userpath = db.collection("users").doc(user.uid)
+            //If the user is new/added to the database authentication, the page
+            //generates a bunch of user information for them, and sets a bunch
+            //of urls for the emoji sources.
             if (authResult.additionalUserInfo.isNewUser) {
                 userpath.set({
                     friendid: user.uid,

@@ -50,11 +50,15 @@
       <div class="showemoji"><img class="emojicontainer" src="" alt="Should be hidden"></div>
     </div>
   </div>
-  <!--The custom tweet button will tweet the last message input by the user.
-  The "official tweet" button is one pulled straight from the Twitter API people.-->
   <div class="dropdown">
+    
+  <!--The custom tweet button will tweet the last message input by the user.-->
     <input type="button" id="customTweet" value="Tweet Last Message">
+    
+ <!-- The "official tweet" button is one pulled straight from the Twitter API people.-->
     <div id="officialTweet"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" data-size="large">Tweet</a></div>
+
+    <!--This stores a dropdown that allows the user to use emojis.-->
     <button class="btn btn-secondary dropdown-toggle"
             type="button" id="dropdownMenu1" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -65,15 +69,18 @@
       </span>
     </div>
   </div>  
+<!--Scaledrone writes to these following message sections.-->
   <div class="messageBox">
     <div class="messages">
     </div>
+    <!--Scaledrone reads these sections in the form.-->
     <form class="footer" onsubmit="return false;">
       <input type="text" placeholder="Your message.." id="msgsrc">
       <button type="submit" id="sendbtn">Send</button>
     </form>
   </div>
 </div>  
+<!--Scaledrone makes duplicates of these data templates to store the messages in html.-->
   <template data-template="message">
     <div class="message">
       <div class="message__name"></div>

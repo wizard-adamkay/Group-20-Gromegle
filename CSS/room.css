@@ -82,6 +82,7 @@ body {
 	height: 100%;
 	z-index: 2;
 }
+/*Holds the formatting for the user-name overlay*/
 .name{
 	width: 20%;
 	height: auto;
@@ -94,6 +95,8 @@ body {
   bottom: 0%;
   background-color: rgba(207, 145, 51, 0.7);
 }
+
+/*Emoji formatting*/
 #emojidisplay {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -113,6 +116,8 @@ body {
   width: 20vw;
   height: 30vh;
 }
+
+/*The following is formatting for the scaledrone messaging html elements.*/
 .messageBox {
     float: right;
     box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
@@ -173,6 +178,7 @@ body {
     cursor: pointer;
   }
 
+  /*Places the tweet buttons and emoji dropdown.*/
   .dropdown {
     position: absolute;
     left: 70%;

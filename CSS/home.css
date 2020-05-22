@@ -15,6 +15,7 @@ button{
     background-color: rgb(239, 165, 57);
     border: 2px solid yellow;
 }
+/*spaces out the html elements*/
 .container{
     display: flex;
     flex-flow: row wrap;
@@ -43,6 +44,7 @@ nav{
 h1{
     font-size: 40pt;
 }
+/*Styles the buttons*/
 .plus{
   border-radius: 15px;
   float: right;
