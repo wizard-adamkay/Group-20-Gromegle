@@ -172,3 +172,20 @@ body {
     font-size: 16px;
     cursor: pointer;
   }
+
+  .dropdown {
+    position: absolute;
+    left: 70%;
+    top: 0;
+  }
+
+  #customTweet{
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgba(207, 145, 51, 0.9);
+    height: 40px;
+    border: black;
+    border-style: solid;
+  }

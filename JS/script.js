@@ -457,3 +457,42 @@ db.collection("reactions").doc("reactionsrcs").onSnapshot(function (doc) {
     $(".showemoji").toggle()
   }, 2000);
 })
+
+let tweet1;
+let val;
+document.getElementById("sendbtn").addEventListener("click", function1);
+
+function function1() {
+  val = document.getElementById("msgsrc").value;
+  val.replace(/\s/g, "%20");
+  console.log(val);
+  document.getElementById("customTweet").addEventListener("click", function2);
+}
+
+function function2() {
+  if (val.length < 280) {
+    tweet1 = "https://twitter.com/intent/tweet?text=" + val;
+    console.log(tweet1);
+    window.open(tweet1, "popup", "width = 600, height = 500");
+  } else {
+    window.alert("Message is too long to tweet!");
+  }
+}
+
+//the following is a widget script from Twitter to run their tweet buttons.
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
