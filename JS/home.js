@@ -28,7 +28,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                   var friendRef = db.collection('users').doc(friend);
                   friendRef.get().then(function(friendDoc) {
                     var data = friendDoc.data();
-                    addToList(data.email, data.currentRoom, data.selectedInterest, "#friendTable", user);
+                    addToList(data.email, data.friendid, data.currentRoom, data.selectedInterest, "#friendTable", user);
                   })
                     
                 });
@@ -42,8 +42,8 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 
-function addToList(friend, roomHash, interest, to, user) {
-    console.log(roomHash);
+function addToList(friend, id, roomHash, interest, to, user) {
+    console.log(id);
     console.log(friend);
     let line = document.createElement('tr');
     let pop = '<div class="popuptext"><button>join room</button></div>';
@@ -63,7 +63,7 @@ function addToList(friend, roomHash, interest, to, user) {
         e.stopPropagation();
         $(hold).parent().css("display", "none");
         db.collection('users').doc(user.uid).update({
-            friends: firebase.firestore.FieldValue.arrayRemove(friend)
+            friends: firebase.firestore.FieldValue.arrayRemove(id)
         });
     });
 }
@@ -171,7 +171,7 @@ function addFriend() {
                 db.collection("users").doc(user.uid).update({
                     friends: firebase.firestore.FieldValue.arrayUnion(doc.data().friendid)
                 });
-                addToList(doc.data().email, doc.data().currentRoom, doc.data().selectedInterest, "#friendTable", user);
+                addToList(doc.data().email, doc.data().friendid, doc.data().currentRoom, doc.data().selectedInterest, "#friendTable", user);
             });
         })
         .catch(function (error) {
