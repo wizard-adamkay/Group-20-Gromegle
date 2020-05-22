@@ -79,7 +79,7 @@ drone.on('open', error => {
   room.on('members', memberList => {
     console.log('MEMBERS', memberList);
     members = memberList;
-    if (members.length > 3) {
+    if (members.length > 4) {
       window.location.href = window.location.href.substring(0, window.location.href - 14) + "home.html";
     }
     //Launches startWebRTC
