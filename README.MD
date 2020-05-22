@@ -6,6 +6,7 @@ All functionality is already present once the repo is cloned.
 
 ### Required Tools
 Javascript\
+JQuery\
 A functional web browser\
 A text editor/IDE\
 Access to a firebase database\
@@ -20,6 +21,7 @@ Line 4 in scripts.js has the Scaledrone API key, which should be replaced by a n
 
 ### Testing/Using the app
 The app should work as linked html documents when downloaded. The app is tested and should work with multiple users. Emojis should appear for all users on the current version.
+Testing plan: https://drive.google.com/file/d/1XF6GJjESLuoBwdRx55DzvX7VNnXtRaph/view?usp=sharing
 
 ### URL
 The website can be reached at www.exvy.ca
