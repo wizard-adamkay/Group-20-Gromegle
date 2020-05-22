@@ -15,7 +15,7 @@ const db = firebase.firestore();
 
 // Holds interests of logged in user.
 var currentuserinterests = [];
-
+storage = window.localStorage;
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
@@ -90,7 +90,7 @@ function callInterestGroup() {
     interestGroup(selection + "rooms");
 }
 
-
+//Finds a room that a specific user is in based on his last selected interest and room ID.
 function findRoom(room, selectedinterest) {
     let user = firebase.auth().currentUser;
     console.log(room);
@@ -99,16 +99,14 @@ function findRoom(room, selectedinterest) {
       .then((doc) => {
         const data = doc.data();
         if (data.memberCount < 4) {
-          db.collection(selectedinterest).doc(room).update({
-                    "memberCount": data.memberCount + 1
-          }).then(() => {
-              db.collection("users").doc(user.uid).update({
-                  currentRoom: doc.id,
-                  selectedInterest: "rooms"
-              }).then(event => {
-                window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-              });
-          })
+          db.collection("users").doc(user.uid).update({
+              currentRoom: doc.id,
+              selectedInterest: "rooms"
+          }).then(event => {
+            localStorage.setItem('interest', selectedinterest);
+            localStorage.setItem('docRef', doc.id);
+            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+          });
         }
     });
     return false;
@@ -123,16 +121,14 @@ function interestGroup(selectedinterest) {
             querySnapshot.forEach(function (doc) {
                 count++;
                 const data = doc.data();
-                db.collection(selectedinterest).doc(doc.id).update({
-                    "memberCount": data.memberCount + 1
-                }).then(() => {
-                    db.collection("users").doc(user.uid).update({
-                        currentRoom: doc.id,
-                        selectedInterest: "rooms"
-                    }).then(event => {
-                      window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                    });
-                })
+                  db.collection("users").doc(user.uid).update({
+                      currentRoom: doc.id,
+                      selectedInterest: selectedinterest
+                  }).then(event => {
+                    localStorage.setItem('interest', selectedinterest);
+                    localStorage.setItem('docRef', doc.id);
+                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                  });
             });
             if (count !== 0) {
                 return false;
@@ -149,6 +145,8 @@ function interestGroup(selectedinterest) {
                           currentRoom: doc.id,
                           selectedInterest: selectedinterest
                         }).then(event => {
+                          localStorage.setItem('interest', selectedinterest);
+                          localStorage.setItem('docRef', doc.id);
                           window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
                         });
                     }

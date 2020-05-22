@@ -16,7 +16,9 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
+storage = window.localStorage;
+console.log(storage.getItem('interest'));
+console.log(storage.getItem('docRef'));
 const configuration = {
   iceServers: [{
       url: 'stun:stun.l.google.com:19302'
@@ -40,6 +42,7 @@ let room;
 let members;
 let pcs = [];
 let localStream;
+//Booleans for whether certain events have taken place.
 let finishedMedia = false;
 let finishedAuth = false;
 let name = "";
@@ -51,7 +54,7 @@ function onSuccess() {
 function onError(error) {
   console.error(error);
 };
-//Gets the user video and audio streams
+//Gets the user video and audio streams and then initiates WebRTC connection
 navigator.mediaDevices.getUserMedia({
   audio: true,
   video: true,
@@ -76,7 +79,7 @@ drone.on('open', error => {
   room.on('members', memberList => {
     console.log('MEMBERS', memberList);
     members = memberList;
-    if (members.length > 4) {
+    if (members.length > 3) {
       window.location.href = window.location.href.substring(0, window.location.href - 14) + "home.html";
     }
     //Launches startWebRTC
@@ -89,6 +92,7 @@ function waitForStreams() {
   if (finishedMedia == true && finishedAuth == true) {
     console.log("finished waiting for streams");
     startWebRTC();
+    
   } else {
     setTimeout(waitForStreams, 1000);
   }
@@ -111,9 +115,13 @@ function sendMessage(message) {
     message
   });
 }
+
 //Checks for other members in room and creates a new PeerConnection offer for each one.
 function startWebRTC() {
   console.log(members);
+  db.collection(storage.getItem('interest')).doc(storage.getItem('docRef')).update({
+    "memberCount": members.length
+  });
   var i;
   for (i = 0; i < members.length; i++) {
     if (members[i].id !== drone.clientId) {
@@ -256,8 +264,10 @@ function startWebRTC() {
         pcs[n].pc.addIceCandidate(
           new RTCIceCandidate(message.candidate), onSuccess, onError);
       }
+      //message.text implies that the incoming message should be converted into HTML.
     } else if (message.text) {
       insertMessageToDOM(String(message.text), String(message.author), message.id, false)
+      //message.name implies that the incoming message specifies a name for a connection.
     } else if (message.name) {
       if (message.target === drone.clientId) {
         setName(String(message.name), message.id);
@@ -265,7 +275,7 @@ function startWebRTC() {
     }
   });
   
-    
+  //Scans for the correct remoteVideo id to apply a new name to.
   function setName(text, id) {
     for (i = 0; i < pcs.length; i++) {
       console.log(pcs[i].id);
@@ -286,20 +296,14 @@ function startWebRTC() {
     }
   }
 
-  
+  //Runs on a member leaving.
   room.on('member_leave', member => {
     console.log(roomHash);
-    db.collection("rooms").where("hash", "==", roomHash)
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          console.log(members.length);
-          db.collection("rooms").doc(doc.id).update({
-            "memberCount": members.length
-          });
-
-        });
-      });
+    //Updates members.length for the room.
+    db.collection(storage.getItem('interest')).doc(storage.getItem('docRef')).update({
+      "memberCount": members.length
+    });
+    //Clears the matching video element's srcObject and name.
     for (i = 0; i < pcs.length; i++) {
       console.log(pcs[i].id);
       if (pcs[i].id === member.id) {
@@ -324,7 +328,7 @@ function startWebRTC() {
     }
   });
 }
-
+//Converts a message into HTML.
 function insertMessageToDOM(text, author, id, isFromMe) {
   const template = document.querySelector('template[data-template="message"]');
   const nameEl = template.content.querySelector('.message__name');
@@ -341,7 +345,7 @@ function insertMessageToDOM(text, author, id, isFromMe) {
 
   messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
 }
-
+//Event handler for the message form.
 const form = document.querySelector('form');
 form.addEventListener('submit', () => {
   const input = document.querySelector('input[type="text"]');
@@ -389,7 +393,7 @@ $(".screencontainer").click(function () {
     $(emoji).toggle();
   }
 });
-
+//Debugging function.
 function showPcs() {
   var b;
   for (b = 0; b < pcs.length; b++) {
