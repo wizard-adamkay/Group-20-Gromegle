@@ -11,10 +11,11 @@
     
 }
 button{
-    color: white;
-    background-color: orange;
+    color: black;
+    background-color: rgb(239, 165, 57);
     border: 2px solid yellow;
 }
+/*spaces out the html elements*/
 .container{
     display: flex;
     flex-flow: row wrap;
@@ -36,18 +37,18 @@ button{
     border-radius: 50%;
 }
 nav{
-    background-color: orange;
+  background-color: rgb(239, 165, 57);
     font-family: 'Righteous', cursive;
     border-bottom: 1px solid gray;
 }
 h1{
     font-size: 40pt;
 }
+/*Styles the buttons*/
 .plus{
-    max-width: 10%;
-    min-height: 10%;
-    border-radius: 50%;
-    float: right;
+  border-radius: 15px;
+  float: right;
+  white-space: nowrap;
 }
 .team-member-photo{
     display: block;
@@ -66,7 +67,7 @@ h2{
     color: white;
 }
 section{
-    background-color: orange;
+  background-color: rgb(239, 165, 57);
     margin-top: 10px;
     padding-bottom: 10px;
     border-top: 1px solid gray;
@@ -137,4 +138,56 @@ p{
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
 }

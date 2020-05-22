@@ -2,11 +2,11 @@
 <head>
   <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="viewport" co ntent="width=device-width">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> 
   <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
   <link rel="stylesheet" href="../CSS/room.css">
-  <link rel="shortcut icon" type="image/png" href="Images/GromegleFav.png">
+  <link rel="shortcut icon" type="image/png" href="../Images/GromegleFav.png">
   <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
 
   <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -15,17 +15,83 @@
   <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
+
+  <title>Gromegle-Chat</title>
 </head>
 <body>
-  <body>
-  <div class="grid-container">
-  <div id="screencontainer1"><video id="localVideo" autoplay muted onclick="overlay1on()"></video><span id="overlay1" onclick="overlay1off()"></span></div>
-  <div id="screencontainer2"><video id="remoteVideo" autoplay onclick="overlay2on()"></video><span id="overlay2" onclick="overlay2off()"></span></div>
-  <div id="screencontainer3"><video id="remoteVideo1" autoplay onclick="overlay3on()"></video><span id="overlay3" onclick="overlay3off()"></span></div>
-  <div id="screencontainer4"><video id="remoteVideo2localVideo" autoplay onclick="overlay4on()"></video><span id="overlay4" onclick="overlay4off()"></span></div>
-</div>
-  <button onclick="showPcs()" type="button">Click me for debugging fun</button>
-  <script src="../JS/script.js"></script>
   
+  <a href="home.html" id="backButton">Leave Room</a>
+
+  <p id="pageName"><strong>VideoChat</strong></p>
+
+
+  <div class="grid-container">
+
+    <div class="screencontainer" data-count="0">
+      <video id="localVideo" autoplay muted></video>
+      <span class="overlay"><img src="../Images/partyhat.png"></span>
+      <p id="name1" class="name">Name 1</p>
+      <div class="showemoji"><img class="emojicontainer" src="" alt="Should be hidden"></div>
+    </div>
+    <div class="screencontainer" data-count="0">
+      <video id="remoteVideo" autoplay></video>
+      <span class="overlay"><img src="../Images/vikinghelmet.png"></span>
+      <p id="name2" class="name">Name 2</p>
+      <div class="showemoji"><img class="emojicontainer" src="" alt="Should be hidden"></div>
+    </div>
+    <div class="screencontainer" data-count="0">
+      <video id="remoteVideo1" autoplay></video>
+      <span class="overlay"><img src="../Images/thoughtbubble.png"></span>
+      <p id="name3" class="name">Name 3</p>
+      <div class="showemoji"><img class="emojicontainer" src="" alt="Should be hidden"></div>
+    </div>
+    <div class="screencontainer" data-count="0">
+      <video id="remoteVideo2" autoplay></video>
+      <span class="overlay"><img src="../Images/thundercloud.png"></span>
+      <p id="name4" class="name">Name 4</p>
+      <div class="showemoji"><img class="emojicontainer" src="" alt="Should be hidden"></div>
+    </div>
+  </div>
+  <div class="dropdown">
+    
+  <!--The custom tweet button will tweet the last message input by the user.-->
+    <input type="button" id="customTweet" value="Tweet Last Message">
+    
+ <!-- The "official tweet" button is one pulled straight from the Twitter API people.-->
+    <div id="officialTweet"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" data-size="large">Tweet</a></div>
+
+    <!--This stores a dropdown that allows the user to use emojis.-->
+    <button class="btn btn-secondary dropdown-toggle"
+            type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+      React
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <span id="emojidisplay">
+      </span>
+    </div>
+  </div>  
+<!--Scaledrone writes to these following message sections.-->
+  <div class="messageBox">
+    <div class="messages">
+    </div>
+    <!--Scaledrone reads these sections in the form.-->
+    <form class="footer" onsubmit="return false;">
+      <input type="text" placeholder="Your message.." id="msgsrc">
+      <button type="submit" id="sendbtn">Send</button>
+    </form>
+  </div>
+</div>  
+<!--Scaledrone makes duplicates of these data templates to store the messages in html.-->
+  <template data-template="message">
+    <div class="message">
+      <div class="message__name"></div>
+      <div class="message__bubble"></div>
+    </div>
+  </template>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="../JS/script.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/png" href="../Images/GromegleFav.png">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
 
-    <title>Gromegle</title>
+    <title>Gromegle-Home</title>
     <script type="text/javascript" src='https://code.jquery.com/jquery-3.5.0.min.js'></script>
 </head>
 
@@ -19,30 +19,41 @@
         <a id="title" class="navbar-brand" href="#">
             <h1>Gromegle</h1>
         </a>
+        
+<input type="button" value="SignOut?" id="signOutBtn" onclick="signOut()">
+ 
     </nav>
+    <!--holds the buttons activating group chats.-->
+    <div class="container">
+        <div>
+            <button type="button" onclick="interestGroup()" class="chat">Chat With a Random Group</button>
+        </div>
+        <div>
+            <button type="button" onclick="callInterestGroup()" class="chat">Chat With a Group With Similar Interests</button>
+        </div>
+    </div>
     <div class="container">
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th>Friends List</th>
-                    <th></th>
+                    <th><button onclick='$("#friendForm").toggle()' type="button" class="plus open-button">Add Friend</button></th></th>
                 </tr>
             </thead>
+            <!--we generate the list of friends below in this table.-->
             <tbody id="friendTable">
             </tbody>
             <tfoot>
                 <tr>
                     <td></td>
                     <td>
-                        <button onclick="showFriendsOption()" type="button" class="plus open-button">
-                            +
-                        </button>
+                        <!--This is the form for the user to add interests.-->
                         <div class="form-popup" id="friendForm">
                             <form class="form-container">
                                 <label for="email"><b>Add friend by email:</b></label>
                                 <input type="email" placeholder="Enter Email" name="email" required>
                                 <button onclick="addFriend()" type="button" class="btn">Send friend Request</button>
-                                <button type="button" class="btn cancel" onclick="closeFriends()">Close</button>
+                                <button type="button" class="btn cancel" onclick='$("#friendForm").toggle()'>Close</button>
                             </form>
                         </div>
                     </td>
@@ -56,10 +67,11 @@
                     <th></th>
                 </tr>
             </thead>
+            <!--we generate the list of toggleable interests below in this table.-->
             <tbody id="interestTable">
                 <tr>
                     <td>Cooking:<input type="checkbox" id="cooking"></td>
-                    <td>Excersize:<input type="checkbox" id="excersize"></td>
+                    <td>Exercise:<input type="checkbox" id="exercise"></td>
                 </tr>
                 <tr>
                     <td>Video Games:<input type="checkbox" id="videoGames"></td>
@@ -72,63 +84,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container">
-        <div>
-            <button type="button" onclick="randomGroup()" class="chat">Chat With a Random Group</button>
-        </div>
-        <div>
-            <button type="button" onclick="callInterestGroup()" class="chat">Chat With a Group With Similar Interests</button>
-        </div>
-    </div>
-
-
-    <section>
-        <h2 id="about">About Us</h2>
-        <div class="container">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Geoff</h4>
-                </div>
-                <div class="card-body">
-                    <img class="team-member-photo card-img-bottom" src="../Images/Geoff.png" alt="Card image cap">
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Daniel Jin</h4>
-                </div>
-                <div class="card-body">
-                    <img class="team-member-photo card-img-bottom" src="../Images/Daniel.png" alt="Card image cap">
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Jon S</h4>
-                </div>
-                <div class="card-body">
-                    <img class="team-member-photo card-img-bottom" src="../Images/Jon.png" alt="Card image cap">
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4>Adam Krawchuk</h4>
-                </div>
-                <div class="card-body">
-                    <img class="team-member-photo card-img-bottom" src="../Images/Adam.png" alt="Card image cap">
-                </div>
-            </div>
-        </div>
-        <div>
-            <p>At Gromegle, we believe there's a better way to do networking. A more casual, fun way where people can
-                meet up and make new friends during this epidemic. Our mission is to help others cope with lonelyness
-                and distract from the ongoing quarentine.
-            </p>
-        </div>
-    </section>
-    <footer>
-        copyrights lmao
-    </footer>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
+   <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use

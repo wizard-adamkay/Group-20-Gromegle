@@ -1,4 +1,5 @@
-// Your web app's Firebase configuration
+// Note: this code is sourced from the Firebase javascript tutorials, with modifications.
+//Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyDQEP71tIIE7W4vadDEz3iu8RkxlJFe9R4",
     authDomain: "gromegle-38a5f.firebaseapp.com",
@@ -45,17 +46,36 @@ let uiConfig = {
             //------------------------------------------------------------------------------------------
             user = authResult.user;
             userpath = db.collection("users").doc(user.uid)
+            //If the user is new/added to the database authentication, the page
+            //generates a bunch of user information for them, and sets a bunch
+            //of urls for the emoji sources.
             if (authResult.additionalUserInfo.isNewUser) {
-                    userpath.set({
-                        friendid: user.uid,
-                        name: user.displayName,
-                        email: user.email,
-                        reportcount: 0,
-                        bio: "Empty",
-                        pfplink: "Empty",
-                        interests: [],
-                        friends: []
-                    })
+                userpath.set({
+                    friendid: user.uid,
+                    name: user.displayName,
+                    email: user.email,
+                    reportcount: 0,
+                    bio: "Empty",
+                    pfplink: "Empty",
+                    interests: [],
+                    friends: [],
+                    emojis: ["https://i.imgur.com/QhkFO3J.png",
+                        "https://i.imgur.com/h4kBtuV.png",
+                        "https://i.imgur.com/U59pzb0.png",
+                        "https://i.imgur.com/070RCR6.png",
+                        "https://i.imgur.com/4EJW8g3.png",
+                        "https://i.imgur.com/f0Ny289.png",
+                        "https://i.imgur.com/qIOg0TY.png",
+                        "https://i.imgur.com/9IE3hgj.png",
+                        "https://i.imgur.com/3DRphFT.png",
+                        "https://i.imgur.com/53goBP7.png",
+                        "https://i.imgur.com/zgtGRcx.png",
+                        "https://i.imgur.com/tQnpLPr.png"
+                    ]
+                }).then(function () {
+                    console.log("New user added to firestore");
+                    window.location.assign("HTML/home.html");
+                })
             } else {
                 return true;
             }

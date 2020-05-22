@@ -15,7 +15,7 @@ const db = firebase.firestore();
 
 // Holds interests of logged in user.
 var currentuserinterests = [];
-
+storage = window.localStorage;
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
@@ -23,216 +23,169 @@ firebase.auth().onAuthStateChanged(function (user) {
         docRef.get().then(function (doc) {
             if (doc && doc.exists) {
                 const myData = doc.data();
-                const friends = myData.friends;
                 currentuserinterests = myData.interests;
-                addToList(friends, "#friendTable", user);
+                myData.friends.forEach(friend => {
+                  var friendRef = db.collection('users').doc(friend);
+                  friendRef.get().then(function(friendDoc) {
+                    var data = friendDoc.data();
+                    addToList(data.email, data.friendid, data.currentRoom, data.selectedInterest, "#friendTable", user);
+                  })
+                    
+                });
+                currentuserinterests.forEach(interest => {
+                    document.getElementById(interest).checked = true;
+                })
             }
         }).catch(function (error) {
             console.log("Got an error: ", error);
         });
-        docRef.get().then(function (querySnapshot) {
-            querySnapshot.data().interests.forEach(x=>{
-                let chk = document.getElementById(x);
-                chk.checked = true;
-            })
-        });
-    } else {
-        // No user is signed in.
     }
 });
 
-function addToList(from, to, user) {
-    from.forEach(stored => {
-        let tr = document.createElement('tr');
-        tr.id = stored;
-        let info = document.createElement('td');
-        info.scope = 'row';
-        let cross = document.createElement('td');
-        cross.classList = ('close');
-        cross.scope = 'row';
-        info.textContent = stored;
-        cross.textContent = "X";
-        tr.appendChild(info);
-        tr.appendChild(cross);
-        $(to).append(tr);
-        // deleting data
-        cross.addEventListener('click', (e) => {
-            e.stopPropagation();
-            cross.parentElement.style = "display: none;";
-            let userRef = db.collection('users').doc(user.uid);
-            userRef.update({
-                friends: firebase.firestore.FieldValue.arrayRemove(stored)
-            });
+//This creates and adds friends to the list.
+function addToList(friend, id, roomHash, interest, to, user) {
+    console.log(id);
+    console.log(friend);
+    let line = document.createElement('tr');
+    let pop = '<div class="popuptext"><button>join room</button></div>';
+    let userd = "<td class='popup' scope='row'>" + friend + pop + "</td>";
+    let cross = "<td id='" + friend + "'class='close' scope='row'>X</td>";
+    $(line).append(userd, cross);
+    $(to).append(line);
+    $(".popup").click(function(event){
+        $(this).children("div").toggleClass("show");
+    });
+    $(".popup div").children("button").click(function(event){
+        findRoom(roomHash, interest);
+    });
+    // deleting data
+    let hold = document.getElementById(friend);
+    $(hold).on('click', e => {
+        e.stopPropagation();
+        $(hold).parent().css("display", "none");
+        db.collection('users').doc(user.uid).update({
+            friends: firebase.firestore.FieldValue.arrayRemove(id)
         });
     });
 }
 
-$(":checkbox").click(function(){
+//This function updates the interests list, and toggles their state of activity
+$(":checkbox").click(function () {
     var id = $(this).attr('id');
     let user = firebase.auth().currentUser;
-    if(this.checked){
+    if (this.checked) {
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayUnion(id)
         });
-    } else{
+        currentuserinterests.push(this.id);
+    } else {
         db.collection("users").doc(user.uid).update({
             interests: firebase.firestore.FieldValue.arrayRemove(id)
         });
+        currentuserinterests = currentuserinterests.filter(e => e !== this.id);
     }
-    db.collection("users").doc(user.uid).get().then(function(doc) {
-        if (doc.exists) {
-            let currentuserData = doc.data();
-            currentuserinterests = currentuserData.interests;
-            console.log(currentuserinterests);
-        } else {
-            console.log("Error finding document");
-        }
-    })
 });
 
-
-
-function showFriendsOption() {
-    document.getElementById("friendForm").style.display = "block";
-    return false;
-}
-
-function closeFriends() {
-    document.getElementById("friendForm").style.display = "none";
-    return false;
-}
-
-function randomGroup() {
-    var count = 0;
-    db.collection("rooms").where("memberCount", "<", 4)
-        .get()
-        .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                const data = doc.data();
-                db.collection("rooms").doc(doc.id).update({
-                    "memberCount": data.memberCount + 1
-                }).then(() => {
-                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                });
-                console.log(data);
-
-                count++;
-            });
-        }).then(() => {
-            if (count == 0) {
-                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-                var roomHash = hash.substring(1);
-                db.collection("rooms").add({
-                    hash: roomHash,
-                    memberCount: 1,
-                }).then(function (docRef) {
-                    console.log(docRef);
-                    docRef.get().then(function (doc) {
-                        if (doc.exists) {
-                            const data = doc.data();
-                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-                })
-            }
-        });
-
-    console.log("randomGroup()");
-    return false;
-}
+//creates interest group.
 function callInterestGroup() {
     let selection = currentuserinterests[Math.floor(Math.random() * currentuserinterests.length)];
-    console.log(selection);
-    switch (selection) {
-        case "cooking":
-            interestGroup("cooking_rooms");
-            break;
-        case "sports":
-            interestGroup("sports_rooms");
-            break;
-        case "videoGames":
-            interestGroup("game_rooms");
-            break;
-        case "studying":
-            interestGroup("study_rooms");
-            break;
-        case "movies":
-            interestGroup("movie_rooms");
-            break;
-        case "exercize":
-            interestGroup("exercise_rooms");
-            break;
-        default:
-            console.log("No interest match found");
-            interestGroup("rooms");
-    }
+    interestGroup(selection + "rooms");
 }
 
-function interestGroup(selectedinterest) {
-    var count2 = 0;
-    db.collection(selectedinterest).where("memberCount", "<", 4)
-        .get()
-        .then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
-                const data = doc.data();
-                db.collection(selectedinterest).doc(doc.id).update({
-                    "memberCount": data.memberCount + 1
-                }).then(() => {
-                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                });
-                console.log(data);
-
-                count2++;
-            });
-        }).then(() => {
-            if (count2 == 0) {
-                var hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
-                var roomHash = hash.substring(1);
-                db.collection(selectedinterest).add({
-                    hash: roomHash,
-                    memberCount: 1,
-                }).then(function (docRef) {
-                    console.log(docRef);
-                    docRef.get().then(function (doc) {
-                        if (doc.exists) {
-                            const data = doc.data();
-                            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
-                        } else {
-                            // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                        }
-                    }).catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-                })
-            }
-        });
-
-    console.log("interestGroup()");
+//Finds a room that a specific user is in based on his last selected interest and room ID.
+function findRoom(room, selectedinterest) {
+    let user = firebase.auth().currentUser;
+    console.log(room);
+    console.log(selectedinterest);
+    db.collection(selectedinterest).doc(room).get()
+      .then((doc) => {
+        const data = doc.data();
+        if (data.memberCount < 4) {
+          db.collection("users").doc(user.uid).update({
+              currentRoom: doc.id,
+              selectedInterest: "rooms"
+          }).then(event => {
+            localStorage.setItem('interest', selectedinterest);
+            localStorage.setItem('docRef', doc.id);
+            window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+          });
+        }
+    });
     return false;
 }
 
+//This chooses rooms based on interests and available rooms.
+function interestGroup(selectedinterest) {
+    selectedinterest = selectedinterest || "rooms";
+    let count = 0;
+    let user = firebase.auth().currentUser;
+    db.collection(selectedinterest).where("memberCount", "<", 4).get()
+        .then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                count++;
+                const data = doc.data();
+                  db.collection("users").doc(user.uid).update({
+                      currentRoom: doc.id,
+                      selectedInterest: selectedinterest
+                  }).then(event => {
+                    localStorage.setItem('interest', selectedinterest);
+                    localStorage.setItem('docRef', doc.id);
+                    window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                  });
+            });
+            if (count !== 0) {
+                return false;
+            }
+            var roomHash = Math.floor(Math.random() * 0xFFFFFF).toString(16).substring(1);
+            db.collection(selectedinterest).add({
+                hash: roomHash,
+                memberCount: 1,
+            }).then(function (docRef) {
+                docRef.get().then(function (doc) {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        db.collection("users").doc(user.uid).update({
+                          currentRoom: doc.id,
+                          selectedInterest: selectedinterest
+                        }).then(event => {
+                          localStorage.setItem('interest', selectedinterest);
+                          localStorage.setItem('docRef', doc.id);
+                          window.location.href = window.location.href.substring(0, window.location.href - 4) + "room.html#" + data.hash;
+                        });
+                    }
+                }).catch(function (error) {
+                    console.log("Error getting document:", error);
+                });
+            })
+        });
+    return false;
+}
+
+//Adds friends to the data.
 function addFriend() {
+    $("#friendForm").toggle();
     var provEmail = $("input[type=email][name=email]").val();
     var users = db.collection("users");
-    console.log("kk");
     users.where("email", "==", provEmail).get()
         .then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 let user = firebase.auth().currentUser;
-                
                 db.collection("users").doc(user.uid).update({
-                    friends: firebase.firestore.FieldValue.arrayUnion(doc.data().email)
+                    friends: firebase.firestore.FieldValue.arrayUnion(doc.data().friendid)
                 });
+                addToList(doc.data().email, doc.data().friendid, doc.data().currentRoom, doc.data().selectedInterest, "#friendTable", user);
             });
         })
         .catch(function (error) {
             console.log("Error getting documents: ", error);
         });
-    setTimeout("location.reload(true);", 1000);
+}
+//Signs the user out.
+function signOut(){
+firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+    window.location.assign("../index.html");
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
 }
