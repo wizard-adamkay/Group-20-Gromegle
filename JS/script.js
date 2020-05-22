@@ -16,7 +16,9 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-
+storage = window.localStorage;
+console.log(storage.getItem('interest'));
+console.log(storage.getItem('docRef'));
 const configuration = {
   iceServers: [{
       url: 'stun:stun.l.google.com:19302'
@@ -77,7 +79,7 @@ drone.on('open', error => {
   room.on('members', memberList => {
     console.log('MEMBERS', memberList);
     members = memberList;
-    if (members.length > 4) {
+    if (members.length > 3) {
       window.location.href = window.location.href.substring(0, window.location.href - 14) + "home.html";
     }
     //Launches startWebRTC
@@ -90,6 +92,7 @@ function waitForStreams() {
   if (finishedMedia == true && finishedAuth == true) {
     console.log("finished waiting for streams");
     startWebRTC();
+    
   } else {
     setTimeout(waitForStreams, 1000);
   }
@@ -112,9 +115,13 @@ function sendMessage(message) {
     message
   });
 }
+
 //Checks for other members in room and creates a new PeerConnection offer for each one.
 function startWebRTC() {
   console.log(members);
+  db.collection(storage.getItem('interest')).doc(storage.getItem('docRef')).update({
+    "memberCount": members.length
+  });
   var i;
   for (i = 0; i < members.length; i++) {
     if (members[i].id !== drone.clientId) {
@@ -293,17 +300,9 @@ function startWebRTC() {
   room.on('member_leave', member => {
     console.log(roomHash);
     //Updates members.length for the room.
-    db.collection("rooms").where("hash", "==", roomHash)
-      .get()
-      .then(function (querySnapshot) {
-        querySnapshot.forEach(function (doc) {
-          console.log(members.length);
-          db.collection("rooms").doc(doc.id).update({
-            "memberCount": members.length
-          });
-
-        });
-      });
+    db.collection(storage.getItem('interest')).doc(storage.getItem('docRef')).update({
+      "memberCount": members.length
+    });
     //Clears the matching video element's srcObject and name.
     for (i = 0; i < pcs.length; i++) {
       console.log(pcs[i].id);
