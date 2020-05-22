@@ -20,3 +20,7 @@ Line 4 in scripts.js has the Scaledrone API key, which should be replaced by a n
 
 ### Testing/Using the app
 The app should work as linked html documents when downloaded. The app is tested and should work with multiple users. Emojis should appear for all users on the current version.
+
+### URL
+The website can be reached at www.exvy.ca
+If the domain name is down, it is hosted at https://gromegle-38a5f.web.app
